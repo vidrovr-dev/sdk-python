@@ -1,0 +1,21 @@
+# ignore some files
+api_returns.py
+api_test.py
+json_exclude.py
+README.rst
+vidrovr/core/.env
+
+# ignore some directories
+vidrovr/core/__pycache__
+vidrovr/resources/__pycache__
+vidrovr/resources/custom_persons/__pycache__
+vidrovr/resources/custom_tags/__pycache__
+vidrovr/resources/feeds/__pycache__
+vidrovr/resources/metadata/__pycache__
+vidrovr/resources/metadata/appearances/__pycache__
+vidrovr/resources/organizations/__pycache__
+vidrovr/resources/projects/__pycache__
+vidrovr/resources/search/__pycache__
+vidrovr/resources/settings/__pycache__
+vidrovr/resources/upload/__pycache__
+vidrovr/resources/users/__pycache__
