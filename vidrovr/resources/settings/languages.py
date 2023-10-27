@@ -13,6 +13,14 @@ class Language(BaseModel):
 
     @classmethod
     def read(cls, project_id: str):
+        """
+        Retrieve information about the project language settings.
+        
+        :param project_id: ID of the project
+        :type project_id: str
+        :return: Data object containing information about the project language settings
+        :rtype: LanguageData
+        """
         url      = f'settings/processing/{project_id}/languages'
         response = Client.get(url)
 
@@ -26,6 +34,16 @@ class Language(BaseModel):
     
     @classmethod
     def update(cls, project_id: str, data: LanguageData):
+        """
+        Update the language settings for a project.
+        
+        :param project_id: ID of the project
+        :type project_id: str
+        :param data: Data object containing new language settings
+        :type data: LanguageData
+        :return: JSON string of the HTTP response
+        :rtype: str
+        """
         url     = f'settings/processing/{project_id}/languages'
         payload = {
             'data': { }

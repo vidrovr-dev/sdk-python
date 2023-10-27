@@ -1,7 +1,12 @@
 Settings
 ========
 
-Creating, deleting, reading and updating settings data
+Udating settings data
 ------------------------------------------------------
 
-Lorem ipsom blah blah blah
+To update language settings for a specific project, you can use the 
+vidrovr.resources.settings.Language object.
+
+.. autofunction:: vidrovr.resources.settings.Language.read
+
+.. autofunction:: vidrovr.resources.settings.Language.update
