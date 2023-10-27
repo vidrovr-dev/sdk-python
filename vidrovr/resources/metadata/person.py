@@ -6,7 +6,7 @@ from pydantic import BaseModel
 @dataclass
 class PersonData:
 
-    asset_id: str
+    id: str
     person_id: str
     person_name: str
     time: str
@@ -37,17 +37,19 @@ class Person(BaseModel):
             url      = f'metadata/{asset_id}/faces/{face_id}'
             response = Client.get(url)
 
-        # TODO: handle array return here as well
-        person = PersonData(
-            asset_id=response['id'],
-            person_id=response['person_id'],
-            person_name=response['person_name'],
-            time=response['time'],
-            score=response['score'],
-            x=response['x'],
-            y=response['y'],
-            w=response['w'],
-            h=response['h']
-        )
+        if isinstance(response, dict):
+            person = PersonData(
+                id=response['id'],
+                person_id=response['person_id'],
+                person_name=response['person_name'],
+                time=response['time'],
+                score=response['score'],
+                x=response['x'],
+                y=response['y'],
+                w=response['w'],
+                h=response['h']
+            )
+        elif isinstance(response, list):
+            person = [PersonData(**item) for item in response]
 
         return person

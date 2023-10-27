@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 @dataclass
 class ObjectData:
-    asset_id: str
+    id: str
     label_id: str
     label_name: str
     time: str
@@ -38,18 +38,21 @@ class Object(BaseModel):
             url      = f'metadata/{asset_id}/object_detections/{obj_detection_id}'
             response = Client.get(url)
 
-        obj = ObjectData(
-            asset_id=response['id'],
-            label_id=response['label_id'],
-            label_name=response['label_name'],
-            time=response['time'],
-            score=response['score'],
-            x=response['x'],
-            y=response['y'],
-            w=response['w'],
-            h=response['h'],
-            frame_height=response['frame_height'],
-            frame_width=response['frame_width']
-        )
+        if isinstance(response, dict):
+            obj = ObjectData(
+                id=response['id'],
+                label_id=response['label_id'],
+                label_name=response['label_name'],
+                time=response['time'],
+                score=response['score'],
+                x=response['x'],
+                y=response['y'],
+                w=response['w'],
+                h=response['h'],
+                frame_height=response['frame_height'],
+                frame_width=response['frame_width']
+            )
+        elif isinstance(response, list):
+            obj = [ObjectData(**item) for item in response]
 
         return obj

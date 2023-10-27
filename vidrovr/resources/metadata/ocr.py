@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 @dataclass
 class OCRData:
-    asset_id: str
+    id: str
     text: str
     time: str
     score: float
@@ -35,16 +35,18 @@ class OCR(BaseModel):
             url      = f'metadata/{asset_id}/ocr/{appearance_id}'
             response = Client.get(url)
 
-        # TODO: handle array return here as well
-        ocr = OCRData(
-            asset_id=response['id'],
-            text=response['text'],
-            time=response['time'],
-            score=response['score'],
-            x=response['x'],
-            y=response['y'],
-            w=response['w'],
-            h=response['h']
-        )
+        if isinstance(response, dict):
+            ocr = OCRData(
+                id=response['id'],
+                text=response['text'],
+                time=response['time'],
+                score=response['score'],
+                x=response['x'],
+                y=response['y'],
+                w=response['w'],
+                h=response['h']
+            )
+        elif isinstance(response, list):
+            ocr = [OCRData(**item) for item in response]
 
         return ocr

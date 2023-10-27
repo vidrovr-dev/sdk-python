@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 @dataclass
 class KeyphraseData:
-    asset_id: str
+    id: str
     keyphrase: str
     confidence: float
 
@@ -21,13 +21,14 @@ class Keyphrase(BaseModel):
         :return: Array of keyphrase detections
         :rtype: list[KeyphraseData]
         """
-        url      = f'metadata/{asset_id}/keyphrases'
-        response = Client.get(url)
+        url       = f'metadata/{asset_id}/keyphrases'
+        response  = Client.get(url)
+        keyphrase = [KeyphraseData(**item) for item in response]
 
-        keyphrase = KeyphraseData(
-            asset_id=response['id'],
-            keyprhase=response['keyphrase'],
-            confidence=response['confidence'],
-        )
+        #keyphrase = KeyphraseData(
+        #    asset_id=response['id'],
+        #    keyprhase=response['keyphrase'],
+        #    confidence=response['confidence'],
+        #)
 
         return keyphrase

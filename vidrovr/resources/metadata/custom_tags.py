@@ -31,11 +31,14 @@ class CustomTag(BaseModel):
             url      = f'metadata/{asset_id}/custom_tags/{tag_id}'
             response = Client.get(url)
 
-        custom_tag = CustomTagData(
-            asset_id=response['id'],
-            name=response['name'],
-            time=response['time'],
-            score=response['score']
-        )
+        if isinstance(response, dict):
+            custom_tag = CustomTagData(
+                asset_id=response['id'],
+                name=response['name'],
+                time=response['time'],
+                score=response['score']
+            )
+        elif isinstance(response, list):
+            custom_tag = [CustomTagData(**item) for item in response]
 
         return custom_tag

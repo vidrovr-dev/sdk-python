@@ -31,11 +31,14 @@ class GenericTag(BaseModel):
             url      = f'metadata/{asset_id}/generic_tags/{tag_id}'
             response = Client.get(url)
 
-        generic_tag = GenericTagData(
-            asset_id=response['id'],
-            name=response['name'],
-            time=response['time'],
-            score=response['score']
-        )
+        if isinstance(response, dict):
+            generic_tag = GenericTagData(
+                asset_id=response['id'],
+                name=response['name'],
+                time=response['time'],
+                score=response['score']
+            )
+        elif isinstance(response, list):
+            generic_tag = [GenericTagData(**item) for item in response]
 
         return generic_tag

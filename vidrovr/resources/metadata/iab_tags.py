@@ -31,11 +31,14 @@ class IABTag(BaseModel):
             url      = f'metadata/{asset_id}/iab_tags/{tag_id}'
             response = Client.get(url)
 
-        iab_tag = IABTagData(
-            asset_id=response['id'],
-            name=response['name'],
-            time=response['time'],
-            score=response['score']
-        )
+        if isinstance(response, dict):
+            iab_tag = IABTagData(
+                asset_id=response['id'],
+                name=response['name'],
+                time=response['time'],
+                score=response['score']
+            )
+        elif isinstance(response, list):
+            iab_tag = [IABTagData(**item) for item in response]
 
         return iab_tag

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 @dataclass
 class NamedEntitiesData:
-    asset_id: str
+    id: str
     name: str
     entity_type: str
     time: str
@@ -32,12 +32,15 @@ class NamedEntities(BaseModel):
             url      = f'metadata/{asset_id}/named_entities/{entity_id}'
             response = Client.get(url)
 
-        named_entity = NamedEntitiesData(
-            asset_id=response['id'],
-            name=response['name'],
-            entity_type=response['entity_type'],
-            time=response['time'],
-            score=response['score']
-        )
+        if isinstance(response, dict):
+            named_entity = NamedEntitiesData(
+                id=response['id'],
+                name=response['name'],
+                entity_type=response['entity_type'],
+                time=response['time'],
+                score=response['score']
+            )
+        elif isinstance(response, list):
+            named_entity = [NamedEntitiesData(**item) for item in response]
 
         return named_entity
