@@ -14,7 +14,16 @@ class IABTag(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str, tag_id: str=None):
-
+        """
+        Returns an array of IAB tag detections or information about a specific IAB tag detection.
+        
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :param tag_id: ID of the tag or None
+        :type tag_id: str
+        :return: Array of IAB tag detections or single IAB tag detection
+        :rtype: list[IABTagData] or IABTagData
+        """
         if tag_id is None:
             url      = f'metadata/{asset_id}/iab_tags'
             response = Client.get(url)

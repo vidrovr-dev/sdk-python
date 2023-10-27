@@ -20,7 +20,16 @@ class Person(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str, face_id: str=None):
+        """
+        Returns an array of person detections or information about a specific detection
 
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :param face_id: ID of the person detection or None
+        :type face_id: str
+        :return: Array of person detection information or detail information for a single detection
+        :rtype: list[PersonData] or PersonData
+        """
         if face_id is None:
             url      = f'metadata/{asset_id}/faces'
             response = Client.get(url)
@@ -28,6 +37,7 @@ class Person(BaseModel):
             url      = f'metadata/{asset_id}/faces/{face_id}'
             response = Client.get(url)
 
+        # TODO: handle array return here as well
         person = PersonData(
             asset_id=response['id'],
             person_id=response['person_id'],

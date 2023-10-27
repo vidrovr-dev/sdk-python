@@ -18,6 +18,16 @@ class Transcript(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str, transcript_id: str):
+        """
+        Returns detail information for a specific transcript chunk.
+        
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :param transcript_id: ID of the transcript
+        :type transcript_id: str
+        :return: Data object containing transcript information
+        :rtype: TranscriptData
+        """
         url      = f'metadata/{asset_id}/transcripts/{transcript_id}'
         response = Client.get(url)
 

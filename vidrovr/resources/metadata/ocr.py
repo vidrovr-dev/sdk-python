@@ -18,7 +18,16 @@ class OCR(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str, appearance_id: str=None):
+        """
+        Returns an array of OCR detections or details about a specific OCR detection.
 
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :param appearance_id: ID of the OCR detection or None
+        :type appearance_id: str
+        :return: Array of OCR detections or single detection item
+        :rtype: list[OCRData] or OCRData
+        """
         if appearance_id is None:
             url      = f'metadata/{asset_id}/ocr'
             response = Client.get(url)
@@ -26,6 +35,7 @@ class OCR(BaseModel):
             url      = f'metadata/{asset_id}/ocr/{appearance_id}'
             response = Client.get(url)
 
+        # TODO: handle array return here as well
         ocr = OCRData(
             asset_id=response['id'],
             text=response['text'],

@@ -24,6 +24,14 @@ class FeedItem(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str):
+        """
+        Retrieve general details about a specific asset.
+        
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :return: Information about the asset
+        :rtype: FeedItemData
+        """
         url       = f'metadata/{asset_id}'
         response  = Client.get(url)
         feed_item = FeedItemData(

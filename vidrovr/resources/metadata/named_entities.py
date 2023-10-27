@@ -15,7 +15,16 @@ class NamedEntities(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str, entity_id: str=None):
-
+        """
+        Returns an array of named entities or information about a specific named entity.
+        
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :param entity_id: ID of the named entity or None
+        :type entity_id: str
+        :return: Array of named entities or single named entity
+        :rtype: list[NamedEntitiesData] or NamedEntitiesData
+        """
         if entity_id is None:
             url      = f'metadata/{asset_id}/named_entities'
             response = Client.get(url)

@@ -13,6 +13,14 @@ class Keyphrase(BaseModel):
 
     @classmethod
     def read(cls, asset_id: str):
+        """
+        Returns an array of keyphrase detections for the asset.
+
+        :param asset_id: ID of the asset
+        :type asset_id: str
+        :return: Array of keyphrase detections
+        :rtype: list[KeyphraseData]
+        """
         url      = f'metadata/{asset_id}/keyphrases'
         response = Client.get(url)
 
