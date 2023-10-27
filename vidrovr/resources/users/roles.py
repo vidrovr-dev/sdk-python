@@ -13,6 +13,12 @@ class Roles(BaseModel):
 
     @classmethod
     def read(cls):
+        """
+        Retrieve the available roles for a user.
+        
+        :return: Array of roles
+        :rtype: list[RolesData]
+        """
         url      = f'users/roles'
         response = Client.get(url)
         roles    = [RolesData(**item) for item in response]

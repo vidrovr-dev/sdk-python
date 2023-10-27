@@ -17,6 +17,14 @@ class User(BaseModel):
 
     @classmethod
     def read(cls, user_id: str):
+        """
+        Retrieve information about a specific user.
+
+        :param user_id: ID of the user
+        :type user_id: str
+        :return: Data object containing information about the user
+        :rtype: UserData
+        """
         url      = f'users/{user_id}'
         response = Client.get(url)
 
@@ -34,6 +42,14 @@ class User(BaseModel):
     
     @classmethod
     def delete(cls, user_id: str): 
+        """
+        Delete a specific user.
+        
+        :param user_id: ID of the user
+        :type user_id: str
+        :return: JSON string of the HTTP response
+        :rtype: str
+        """
         url      = f'users/{user_id}'
         response = Client.delete(url)
 
@@ -41,6 +57,16 @@ class User(BaseModel):
     
     @classmethod
     def update(cls, user_id: str, data: UserData):
+        """
+        Update information about a user.
+        
+        :param user_id: ID of the user
+        :type user_id: str
+        :param data: Data object containing update information
+        :type data: UserData
+        :return: JSON string of the HTTP response
+        :rtype: str
+        """
         url      = f'users/{user_id}'
         payload  = {
             'data': {
@@ -49,3 +75,5 @@ class User(BaseModel):
             }
         }
         response = Client.patch(url, payload)
+
+        return response

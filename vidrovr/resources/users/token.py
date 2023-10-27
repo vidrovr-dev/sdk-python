@@ -2,7 +2,6 @@ from ...core import Client
 
 from dataclasses import dataclass
 from pydantic import BaseModel
-from icecream import ic
 
 @dataclass
 class TokenData:
@@ -15,6 +14,14 @@ class Token(BaseModel):
 
     @classmethod
     def read(cls, user_id: str):
+        """
+        Retrieve information about a user's tokens.
+        
+        :param user_id: ID of the user
+        :type user_id: str
+        :return: Array of token information
+        :rtype: list[TokenData]
+        """
         url      = f'users/{user_id}/tokens'
         response = Client.get(url)
 
@@ -32,6 +39,14 @@ class Token(BaseModel):
     
     @classmethod
     def create(cls, user_id: str):
+        """
+        Create a new token for a user.
+        
+        :param user_id: ID of the user
+        :type user_id: str
+        :return: Data object containing new token ID
+        :rtype: TokenData
+        """
         url      = f'users/{user_id}/tokens'
         response = Client.post(url)
 
