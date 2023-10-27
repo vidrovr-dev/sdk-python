@@ -2,7 +2,6 @@ from ...core import Client
 
 from dataclasses import dataclass
 from pydantic import BaseModel
-from icecream import ic
 
 @dataclass
 class FeedDetailData:
@@ -22,6 +21,16 @@ class FeedDetail(BaseModel):
 
     @classmethod
     def read(cls, feed_id: str, project_id: str):
+        """
+        Retreive information about a specific feed.
+
+        :param feed_id: ID of the feed
+        :type feed_id: str
+        :param project_id: ID of the project containing the feed
+        :type project_id: str
+        :return: Information about the feed
+        :rtype: FeedDetailData
+        """
         url      = f'feeds/{feed_id}?project_uid={project_id}'
         response = Client.get(url)
         feed_detail = FeedDetailData(
