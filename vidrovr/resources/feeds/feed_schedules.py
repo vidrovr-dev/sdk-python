@@ -9,7 +9,7 @@ from pydantic import BaseModel
 class FeedScheduleData:
     id: str
     day_of_week: str
-    start_time: bool
+    start_time: str
     end_time: str
 
 class FeedSchedule(BaseModel):

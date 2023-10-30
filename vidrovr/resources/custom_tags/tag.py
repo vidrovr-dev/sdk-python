@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 @dataclass
-class TagData:
+class CustomTagData:
     id: str
     name: str
     is_active: bool
@@ -13,7 +13,7 @@ class TagData:
     num_reviewed: int
     num_unreviewed: int
 
-class Tag(BaseModel):
+class CustomTag(BaseModel):
 
     @classmethod
     def read(cls, project_id: str, tag_id: str=None):
@@ -36,7 +36,7 @@ class Tag(BaseModel):
         response = Client.get(url)
 
         if isinstance(response, dict):
-            custom_tag = TagData(
+            custom_tag = CustomTagData(
                 id=response['id'],
                 name=response['name'],
                 is_active=response['is_active'],
@@ -46,7 +46,7 @@ class Tag(BaseModel):
                 num_unreviewed=response['num_unreviewed']
             )
         elif isinstance(response, list): 
-            custom_tag = [TagData(**item) for item in response]
+            custom_tag = [CustomTagData(**item) for item in response]
 
         return custom_tag
     

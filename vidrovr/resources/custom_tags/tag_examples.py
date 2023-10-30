@@ -4,13 +4,13 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 @dataclass
-class TagExampleData:
+class CustomTagExampleData:
     id: str
     href: str
     source: str
     status: str
 
-class TagExample(BaseModel):
+class CustomTagExample(BaseModel):
 
     @classmethod
     def read(cls, project_id: str, tag_id: str, example_id: str=None):
@@ -36,14 +36,14 @@ class TagExample(BaseModel):
         response = Client.get(url)
 
         if isinstance(response, dict):
-            custom_tag = TagExampleData(
+            custom_tag = CustomTagExampleData(
                 id=response['id'],
                 href=response['href'],
                 source=response['source'],
                 status=response['status']
             )
         elif isinstance(response, list): 
-            custom_tag = [TagExampleData(**item) for item in response]
+            custom_tag = [CustomTagExampleData(**item) for item in response]
 
         return custom_tag
     

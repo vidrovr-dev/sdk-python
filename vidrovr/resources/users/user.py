@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 @dataclass
 class UserData:
-    asset_id: str
+    id: str
     email: str
     auth0_id: str
     organization_id: str
@@ -29,7 +29,7 @@ class User(BaseModel):
         response = Client.get(url)
 
         user = UserData(
-            asset_id=response['id'],
+            id=response['id'],
             email=response['email'],
             auth0_id=response['auth0_id'],
             organization_id=response['organization_id'],
