@@ -1,2 +1,2 @@
-# sdk-python
-Python based SDK for the platform
+# Vidrovr SDK
+SDK to enable Video Robotic Process Automation for the Vidrovr platform
