@@ -1,4 +1,4 @@
 # Vidrovr SDK
-SDK to enable Video Robotic Process Automation for the Vidrovr platform.
+SDK to enable Vidrovr:tm:: Video Robotic Process Automation:tm:.
 
 NOTE: This project is under active development.
