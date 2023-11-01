@@ -13,7 +13,7 @@ you can use the objects in vidrovr.resources.metadata.
 
 .. autofunction:: vidrovr.resources.metadata.IABTag.read
 
-.. autofunction:: vidrovr.resources.metadata.Keyphrases.read
+.. autofunction:: vidrovr.resources.metadata.Keyphrase.read
 
 .. autofunction:: vidrovr.resources.metadata.NamedEntities.read
 

@@ -22,9 +22,9 @@ Creating and reading feed schedules
 To create a new schedule, or retrieve scheudle details, for a feed, you can
 use the vidrovr.resources.feeds.FeedSchedule object:
 
-.. autofunction:: vidrovr.resources.feeds.FeedSchedule.read
+.. autofunction:: vidrovr.resources.feeds.FeedSchedule.create
 
-.. autofunction:: vidrovr.resources.feeds.FeedSchedule.update
+.. autofunction:: vidrovr.resources.feeds.FeedSchedule.read
 
 Reading feed details
 --------------------
@@ -32,4 +32,4 @@ Reading feed details
 To retrieve details for a specific feed in a project, you can use the
 vidrovr.resources.feeds.FeedDetails object:
 
-.. autofunction:: vidrovr.resources.feeds.FeedDetails.read
+.. autofunction:: vidrovr.resources.feeds.FeedDetail.read
