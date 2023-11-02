@@ -6,6 +6,7 @@ README.rst
 vidrovr/core/.env
 
 # ignore some directories
+docs/build
 vidrovr/core/__pycache__
 vidrovr/resources/__pycache__
 vidrovr/resources/custom_persons/__pycache__
