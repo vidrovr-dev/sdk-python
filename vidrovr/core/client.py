@@ -2,18 +2,15 @@ import json
 import os
 import requests
 
-from decouple import config
+# check env vars
+if 'VIDROVR_API_URL' in os.environ:
+    API_URL = os.environ.get('VIDROVR_API_URL', 'https://api.vidrovr.com')
 
-# check if env vars are in environment or a .env file
 if 'VIDROVR_API_KEY' in os.environ:
     API_KEY = os.environ['VIDROVR_API_KEY']
-else:
-    API_KEY = config('VIDROVR_API_KEY')
 
 if 'VIDROVR_API_VERSION' in os.environ:
-    BASE_URL = f"https://api.vidrovr.com/{os.environ.get('VIDROVR_API_VERSION', 'v2')}"
-else:
-    BASE_URL = f"https://api.vidrovr.com/{config('VIDROVR_API_VERSION', default='v2')}"
+    BASE_URL = f"{API_URL}/{os.environ.get('VIDROVR_API_VERSION', 'v2')}"
 
 HEADER = { 'x-api-key': API_KEY }
 
