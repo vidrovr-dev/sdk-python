@@ -3,8 +3,14 @@ import os
 import requests
 
 # check env vars
+API_URL = ''
+API_KEY = ''
+BASE_URL = ''
+
 if 'VIDROVR_API_URL' in os.environ:
     API_URL = os.environ.get('VIDROVR_API_URL', 'https://api.vidrovr.com')
+else:
+    API_URL = 'https://api.vidrovr.com'
 
 if 'VIDROVR_API_KEY' in os.environ:
     API_KEY = os.environ['VIDROVR_API_KEY']
