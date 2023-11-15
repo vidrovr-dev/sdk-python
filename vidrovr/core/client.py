@@ -2,6 +2,8 @@ import json
 import os
 import requests
 
+from icecream import ic
+
 # check env vars
 API_URL = ''
 API_KEY = ''
@@ -103,6 +105,7 @@ class Client:
                     'Accept': 'application/json',
                     'x-api-key': API_KEY
                 }
+
                 response = requests.post(api_url, headers=header, json=data)
             else:
                 header = {
