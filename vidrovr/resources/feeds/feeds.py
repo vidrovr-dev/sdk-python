@@ -44,7 +44,7 @@ class FeedModel(BaseModel):
     media_type: Optional[str] = Field(default=None)
     link: str = Field(default="Default")
     segment_length: Optional[int] = Field(default=3)
-    project_uids: str = Field(default=None)
+    project_uids: list[str] = Field(default_factory=list)
 
     def __init__(self, **data):
         data['id']             = data.get('id', None)
