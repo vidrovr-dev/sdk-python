@@ -1,14 +1,6 @@
-import json
+from vidrovr.core import Client
 
-from ...core import Client
-
-from typing import Optional
-from pydantic import BaseModel, ValidationError, Field
-from icecream import ic
-
-class BaseResource(BaseModel):
-    type: str
-    id: str
+from pydantic import BaseModel, ValidationError, validator
 
 class FeedModel(BaseModel):
     """
@@ -35,65 +27,64 @@ class FeedModel(BaseModel):
     :param project_uids: Project ID that this feed will be associated with
     :type project_uids: str
     """
-    id: Optional[str] = Field(default=None)
-    type: str = Field(default=None)
-    name: Optional[str] = Field(default="Default")
-    profile: Optional[str] = Field(default=None)
-    hashtag: Optional[str] = Field(default=None)
-    polling_freq: int = Field(default=3600)
-    media_type: Optional[str] = Field(default=None)
-    link: str = Field(default="Default")
-    segment_length: Optional[int] = Field(default=3)
-    project_uids: list[str] = Field(default_factory=list)
+    id: str = None
+    type: str = None
+    name: str = 'Default'
+    profile: str = None
+    hashtag: str = None
+    polling_freq: int = 3600
+    media_type: str = None
+    link: str = None
+    segment_length: int = 3
+    project_uids: list[str] = None
 
-    def __init__(self, **data):
-        data['id']             = data.get('id', None)
-        data['type']           = data.get('type', None)
-        data['name']           = data.get('name', 'Default')
-        data['profile']        = data.get('profile', None)
-        data['hashtag']        = data.get('hashtag', None)
-        data['polling_freq']   = data.get('polling_freq', 3600) 
-        data['media_type']     = data.get('media_type', None)
-        data['link']           = data.get('link', 'Default')
-        data['segment_length'] = data.get('segment_length', 3)
-        data['project_uids']   = data.get('id', None)
+    @validator("name", pre=True)
+    def check_name(cls, value):
+        if value is None:
+            value = 'Default'
 
-        super().__init__(**data)
+        return value
+    
+    @validator("polling_freq", pre=True)
+    def check_polling_freq(cls, value):
+        if value is None:
+            value = 3600
+
+        return value
+    
+    @validator("segment_length", pre=True)
+    def check_segment_length(cls, value):
+        if value is None:
+            value = 3
+
+        return value
 
 class Feed:
 
     @classmethod
-    def read(cls, project_id: str) -> FeedModel:
+    def read(cls, project_id: str):
         """
         Returns a list of all feeds created by the user, including the name and the unique identifier of the feed.
 
         :param project_id: ID of the project to retrieve feeds from
         :type project_id: str
         :return: A list of all feeds in the project
-        :rtype: list[FeedData]
+        :rtype: list[FeedModel]
         """
         url      = f'feeds/?project_uid={project_id}'
         response = Client.get(url)
+        feeds    = []
 
-        if isinstance(response, dict):
-            feed = FeedModel(
-                id=response['id'],
-                feed_type=response['type'],
-                name=response['name']
-            )
-        elif isinstance(response, list):
-            feeds = []
-
-            for item in response:
-                try:
-                    feed = FeedModel(
-                        id=item['id'],
-                        type=item['type'],
-                        name=item['name']
-                    )
-                    feeds.append(feed)
-                except ValidationError as e:
-                    print(f'Feed.read(): Validation error for {item}: {e}')
+        for item in response:
+            try:
+                feed = FeedModel(
+                    id=item['id'],
+                    type=item['type'],
+                    name=item['name']
+                )
+                feeds.append(feed)
+            except ValidationError as e:
+                print(f'Feed.read(): Validation error for {item}: {e}')
 
         return feeds
     
