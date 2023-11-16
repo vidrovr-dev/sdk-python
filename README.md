@@ -1,5 +1,9 @@
 # Usage
 
+## Work in Progress
+
+This SDK is currently in progress and still evolving.
+
 ## Installation
 
 To use Vidrovr, first install it using pip:
