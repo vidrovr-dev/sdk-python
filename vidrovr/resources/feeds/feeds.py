@@ -2,6 +2,8 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
 
+from icecream import ic
+
 class FeedModel(BaseModel):
     """
     Model of a feed
@@ -29,6 +31,15 @@ class FeedModel(BaseModel):
     """
     id: str = None
     type: str = None
+    additional_metadata: str = None
+    creation_date: str = None
+    is_active: bool = True
+    next_poll_date: str = None
+    num_feed_items: int = 0
+    priority: int = 0
+    query_parameters: str = None
+    status: str = None
+    updated_date: str = None
     name: str = 'Default'
     profile: str = None
     hashtag: str = None
@@ -75,18 +86,21 @@ class Feed:
         response = Client.get(url)
         feeds    = []
 
-        for item in response:
-            try:
-                feed = FeedModel(
-                    id=item['id'],
-                    type=item['type'],
-                    name=item['name']
-                )
-                feeds.append(feed)
-            except ValidationError as e:
-                print(f'Feed.read(): Validation error for {item}: {e}')
+        if response is not None:
+            for item in response:
+                try:
+                    feed = FeedModel(
+                        id=item['id'],
+                        type=item['type'],
+                        name=item['name']
+                    )
+                    feeds.append(feed)
+                except ValidationError as e:
+                    print(f'Feed.read(): Validation error for {item}: {e}')
 
-        return feeds
+            return feeds
+        else:
+            return response
     
     @classmethod
     def delete(cls, feed_id: str, project_id: str):
@@ -97,13 +111,21 @@ class Feed:
         :type feed_id: str
         :param project_id: ID of the project containing the feed to delete
         :type feed_id: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: A FeedModel on success
+        :rtype: FeedModel
         """
         url      = f'feeds/{feed_id}?project_uid={project_id}'
         response = Client.delete(url)
 
-        return response
+        if response is not None:
+            feed = FeedModel(
+                id=response['id'],
+                type=response['type']
+            )
+
+            return feed
+        else:        
+            return response
     
     @classmethod
     def update(cls, feed_id: str, project_id: str, status: bool):
@@ -118,19 +140,38 @@ class Feed:
         :type project_id: str
         :param status: Status of the feed
         :type status: bool
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: A FeedModel on success
+        :rtype: FeedModel
         """
         url = f'feeds/{feed_id}'
         payload = {
             'data': {
                 'is_active': status,
-                'project_uids': project_id
+                'project_uid': project_id
             }
         }
         response = Client.patch(url, payload)
 
-        return response
+        if response is not None:
+            feed = FeedModel(
+                additional_metadata=response['additional_metadata'],
+                creation_date=response['creation_date'],
+                id=response['id'],
+                is_active=response['is_active'],
+                name=response['name'],
+                next_poll_date=response['next_poll_date'],
+                num_feed_items=response['num_feed_items'],
+                polling_freq=response['polling_frequency'],
+                priority=response['priority'],
+                query_parameters=response['query_parameters'],
+                status=response['status'],
+                type=response['type'],
+                updated_date=response['updated_date']
+            )
+
+            return feed
+        else:
+            return response
     
     @classmethod
     def create(cls, data: FeedModel):
@@ -139,15 +180,15 @@ class Feed:
 
         :param data: FeedModel object contiaining the info to create a feed
         :type data: FeedModel
-        :return: JSON string containing the HTTP response
-        :rtype: str
+        :return: A FeedModel on success
+        :rtype: FeedModel
         """
         url     = 'feeds/'
         payload = {
             'data': {
                 'name': data.name,
                 'polling_frequency': data.polling_freq,
-                'project_uids': [data.project_uids],
+                'project_uids': data.project_uids,
                 'feed_type': data.type
             }
         }
@@ -181,4 +222,12 @@ class Feed:
 
         response = Client.post(url, payload)
 
-        return response
+        if response is not None:
+            feed = FeedModel(
+                id=response['id'],
+                name=response['name']
+            )
+
+            return feed
+        else:
+            return response
