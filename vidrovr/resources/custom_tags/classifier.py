@@ -1,16 +1,14 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class ClassifierData:
-    id: str
-    name: str
-    training_state: str
-    is_active: bool
+class ClassifierModel(BaseModel):
+    id: str | None
+    name: str | None
+    training_state: str | None
+    is_active: bool | False
 
-class Classifier(BaseModel):
+class Classifier:
 
     @classmethod
     def read(cls, project_id: str, classifier_id: str=None):
@@ -33,14 +31,14 @@ class Classifier(BaseModel):
         response = Client.get(url)
 
         if isinstance(response, dict):
-            custom_tag = ClassifierData(
+            custom_tag = ClassifierModel(
                 id=response['id'],
                 name=response['name'],
                 training_state=response['training_state'],
                 is_active=response['is_active']
             )
         elif isinstance(response, list): 
-            custom_tag = [ClassifierData(**item) for item in response]
+            custom_tag = [ClassifierModel(**item) for item in response]
 
         return custom_tag
     

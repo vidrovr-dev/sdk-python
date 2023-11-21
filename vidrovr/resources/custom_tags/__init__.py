@@ -1,3 +1,3 @@
-from .tag import CustomTag, CustomTagData
-from .tag_examples import CustomTagExample, CustomTagExampleData
-from .classifier import Classifier, ClassifierData
+from vidrovr.resources.custom_tags.tag import CustomTag, CustomTagModel
+from vidrovr.resources.custom_tags.tag_examples import CustomTagExample, CustomTagExampleModel
+from vidrovr.resources.custom_tags.classifier import Classifier, ClassifierModel

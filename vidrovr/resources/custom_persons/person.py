@@ -1,19 +1,35 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class PersonData:
-    id: str
-    name: str
-    creation_date: str
-    is_active: bool
-    num_examples: int
-    num_reviewed: int
-    num_unreviewed: int
+class PersonModel(BaseModel):
+    """
+    Model of a person.
 
-class Person(BaseModel):
+    :param id: ID of the person
+    :type id: str
+    :param name: Name of the person
+    :type name: str
+    :param creation_date: Creation date of the person
+    :type creation_date: str
+    :param is_active: Indicates if the person is active or not
+    :type is_active: bool
+    :param num_examples: Number of examples of the person
+    :type num_examples: int
+    :param num_reviewed: Number of examples of the peson that have been reviewed
+    :type num_reviewed: int
+    :param num_unreviewed: Number of example of the person that have not been reviewed
+    :type num_unreviewed: int
+    """
+    id: str | None
+    name: str | None
+    creation_date: str | None
+    is_active: bool | False
+    num_examples: int | 0
+    num_reviewed: int | 0
+    num_unreviewed: int | 0
+
+class Person:
 
     @classmethod
     def read(cls, project_id: str, person_id: str=None):
@@ -36,7 +52,7 @@ class Person(BaseModel):
         response = Client.get(url)
 
         if isinstance(response, dict):
-            person = PersonData(
+            person = PersonModel(
                 id=response['id'],
                 name=response['name'],
                 creation_date=response['creation_date'],
@@ -46,7 +62,7 @@ class Person(BaseModel):
                 num_unreviewed=response['num_unreviewed']
             )
         elif isinstance(response, list): 
-            person = [PersonData(**item) for item in response]
+            person = [PersonModel(**item) for item in response]
 
         return person
 
