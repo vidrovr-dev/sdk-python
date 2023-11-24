@@ -15,11 +15,14 @@ class ProjectModel(BaseModel):
     :type user_ids: list[str]
     :param creation_date: Creation date of the project
     :type creation_date: str
+    :param type: Type of project
+    :type type: str
     """
     id: str = None
     name: str = None
     user_ids: list[str] = None
     creation_date: str = None
+    type: str = None
 
     @validator("user_ids", pre=True)
     def check_user_ids(cls, value):
@@ -30,6 +33,13 @@ class ProjectModel(BaseModel):
     
     @validator("creation_date", pre=True)
     def check_creation_date(cls, value):
+        if value is None:
+            value = 'None'
+
+        return value
+    
+    @validator("type", pre=True)
+    def check_type(cls, value):
         if value is None:
             value = 'None'
 
@@ -76,16 +86,24 @@ class Project:
         
         :param project_id: ID of the project
         :type project_id: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: A ProjectModel on success
+        :rtype: ProjectModel
         """
         url      = f'projects/{project_id}'
         response = Client.delete(url)
 
-        return response
+        if response is not None:
+            project = ProjectModel(
+                id=response['id'],
+                type=response['type']
+            )
+
+            return project
+        else:
+            return response
     
     @classmethod
-    def update(cls, project_id: str, user_id: str, name: str, operation: str):
+    def update(cls, project_id: str, name: str, user_id: str = None, operation: str = None):
         """
         Update a project in an organization.
         
@@ -93,23 +111,45 @@ class Project:
         :type project_id: str
         :param name: Name of the project
         :type name: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :param user_id: ID of user to add or remove from project, optional
+        :type user_id: str
+        :param operation: Add or remove user from project, optional but required if using user_id
+        :type operation: str
+        :return: A ProjectModel on success
+        :rtype: ProjectModel
         """
         url      = f'projects/{project_id}'
         payload  = {
             'data': {
-                'name': name,
-                #'operation': operation, # 'add' or 'remove'
-                #'user_ids': [user_id]
+                'name': name
             }
         }
+
+        # check for optional items
+        if user_id is not None:
+            if 'user_ids' not in payload['data']:
+                payload['data']['user_ids'] = user_id
+
+        if operation is not None:
+            if 'operation' not in payload['data']:
+                payload['data']['operation'] = operation
+
         response = Client.patch(url, payload)
 
-        return response
+        if response is not None:
+            project = ProjectModel(
+                id=response['id'],
+                name=response['name'],
+                user_ids=response['user_ids'],
+                creation_date=response['creation_date']
+            )
+
+            return project
+        else:
+            return response
     
     @classmethod
-    def create(cls, user_id: str, name: str):
+    def create(cls, data: ProjectModel):
         """
         Create a new project in the organization.
         
@@ -117,16 +157,26 @@ class Project:
         :type user_id: str
         :param name: Name of the project
         :type name: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: A ProjectModel on success
+        :rtype: ProjectModel
         """
         url      = f'projects/'
         payload  = {
             'data': {
-                'name': name,
-                'user_ids': [user_id]
+                'name': data.name,
+                'user_ids': [data.user_ids]
             }
         }
         response = Client.post(url, data=payload)
 
-        return response
+        if response is not None:
+            project = ProjectModel(
+                id=response['id'],
+                name=response['name'],
+                creation_date=response['creation_date'],
+                user_ids=response['user_ids']
+            )
+
+            return project
+        else:
+            return response
