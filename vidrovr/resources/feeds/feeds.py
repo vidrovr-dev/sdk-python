@@ -1,12 +1,34 @@
-from vidrovr.core import Client
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Vidrovr Inc.
+# By: Gianni Galbiati
+from enum import Enum
+from uuid import UUID
 
-from pydantic import BaseModel, ValidationError, validator
+from pydantic import Field
+from pydantic import AnyHttpUrl
 
-from icecream import ic
+from vidrovr.resources.base import Resource
 
-class FeedModel(BaseModel):
-    """
-    Model of a feed
+
+class FeedTypes(Enum):
+    user_upload = "user_upload"
+
+    hls = "hls"
+    rtmp = "rtmp"
+    rtsp = "rtsp"
+
+    youtube = "youtube"
+    twitter_profile = "twitter_profile"
+    twitter_hashtag = "twitter_hashtag"
+    instagram_profile = "instagram_profile"
+    instagram_hashtag = "instagram_hashtag"
+    facebook_profile = "facebook_profile"
+
+
+class Feed(Resource):
+    """Feed resource representation
 
     :param id: ID value of the feed
     :type id: str
@@ -29,48 +51,129 @@ class FeedModel(BaseModel):
     :param project_uids: Project ID that this feed will be associated with
     :type project_uids: str
     """
-    id: str = None
-    type: str = None
-    additional_metadata: str = None
-    creation_date: str = None
-    is_active: bool = True
-    next_poll_date: str = None
-    num_feed_items: int = 0
-    priority: int = 0
-    query_parameters: str = None
-    status: str = None
-    updated_date: str = None
-    name: str = 'Default'
-    profile: str = None
-    hashtag: str = None
-    polling_freq: int = 3600
-    media_type: str = None
-    link: str = None
-    segment_length: int = 3
-    project_uids: list[str] = None
+    type: FeedTypes = Field(alias="feed_types")
+    project_uid: UUID | str
+    name: str
 
-    @validator("name", pre=True)
-    def check_name(cls, value):
-        if value is None:
-            value = 'Default'
+    polling_frequency: int = 3600
 
-        return value
-    
-    @validator("polling_freq", pre=True)
-    def check_polling_freq(cls, value):
-        if value is None:
-            value = 3600
+    youtube_url: AnyHttpUrl = None
 
-        return value
-    
-    @validator("segment_length", pre=True)
-    def check_segment_length(cls, value):
-        if value is None:
-            value = 3
+    @classmethod
+    def uri(cls, identifier: str | UUID = None) -> str:
+        return f"feeds/{identifier}"
 
-        return value
+    # Use `.link` to work around url typing
+    @property
+    def link(self):
+        if self.type is FeedTypes.youtube:
+            return self.youtube_url
+
+    @link.setter
+    def link(self, val):
+        if self.type is FeedTypes.youtube:
+            self.youtube_url = val
+
+        # TODO: finish these
+
+    # additional_metadata: str = None
+    # creation_date: str = None
+    # is_active: bool = True
+    # next_poll_date: str = None
+    # num_feed_items: int = 0
+    # priority: int = 0
+    # query_parameters: str = None
+    # status: str = None
+    # updated_date: str = None
+    # name: str = 'Default'
+    # profile: str = None
+    # hashtag: str = None
+    # polling_freq: int = 3600
+    # media_type: str = None
+    # link: str = None
+    # segment_length: int = 3
+    # project_uids: list[str] = None
+
+    # @validator("name", pre=True)
+    # def check_name(cls, value):
+    #     if value is None:
+    #         value = 'Default'
+    #
+    #     return value
+    #
+    # @validator("polling_freq", pre=True)
+    # def check_polling_freq(cls, value):
+    #     if value is None:
+    #         value = 3600
+    #
+    #     return value
+    #
+    # @validator("segment_length", pre=True)
+    # def check_segment_length(cls, value):
+    #     if value is None:
+    #         value = 3
+    #
+    #     return value
 
 class Feed:
+    @classmethod
+    def create(cls, data: FeedModel):
+        """
+        Creates a feed which Vidrovr will poll to ingest data into the system.
+
+        :param data: FeedModel object contiaining the info to create a feed
+        :type data: FeedModel
+        :return: A FeedModel on success
+        :rtype: FeedModel
+        """
+        url     = 'feeds/'
+        payload = {
+            'data': {
+                'name': data.name,
+                'polling_frequency': data.polling_freq,
+                'project_uids': data.project_uids,
+                'feed_type': data.type
+            }
+        }
+
+        # put the url in the right slot
+        if data.type == 'youtube':
+            if 'youtube_url' not in payload['data']:
+                payload['data']['youtube_url'] = data.link
+        elif data.type == 'hls':
+            if 'hls_link' not in payload['data']:
+                payload['data']['hls_link'] = data.link
+        elif data.type == 'rtmp':
+            if 'rtmp_link' not in payload['data']:
+                payload['data']['rtmp_link'] = data.link
+        elif data.type == 'rtsp':
+            if 'rtsp_link' not in payload['data']:
+                payload['data']['rtsp_link'] = data.link
+
+        # check for optional items
+        if data.profile is not None:
+            if 'profile' not in payload['data']:
+                payload['data']['profile'] = data.profile
+
+        if data.hashtag is not None:
+            if 'hashtag' not in payload['data']:
+                payload['data']['hashtag'] = data.hashtag
+
+        if data.media_type is not None:
+            if 'media_type' not in payload['data']:
+                payload['data']['media_type'] = data.media_type
+
+        response = Client.post(url, payload)
+
+        if response is not None:
+            feed = FeedModel(
+                id=response['id'],
+                name=response['name']
+            )
+
+            return feed
+        else:
+            return response
 
     @classmethod
     def read(cls, project_id: str):
@@ -173,61 +276,3 @@ class Feed:
         else:
             return response
     
-    @classmethod
-    def create(cls, data: FeedModel):
-        """
-        Creates a feed which Vidrovr will poll to ingest data into the system.
-
-        :param data: FeedModel object contiaining the info to create a feed
-        :type data: FeedModel
-        :return: A FeedModel on success
-        :rtype: FeedModel
-        """
-        url     = 'feeds/'
-        payload = {
-            'data': {
-                'name': data.name,
-                'polling_frequency': data.polling_freq,
-                'project_uids': data.project_uids,
-                'feed_type': data.type
-            }
-        }
-
-        # put the url in the right slot
-        if data.type == 'youtube':
-            if 'youtube_url' not in payload['data']:
-                payload['data']['youtube_url'] = data.link
-        elif data.type == 'hls':
-            if 'hls_link' not in payload['data']:
-                payload['data']['hls_link'] = data.link
-        elif data.type == 'rtmp':
-            if 'rtmp_link' not in payload['data']:
-                payload['data']['rtmp_link'] = data.link
-        elif data.type == 'rtsp':
-            if 'rtsp_link' not in payload['data']:
-                payload['data']['rtsp_link'] = data.link
-
-        # check for optional items
-        if data.profile is not None:
-            if 'profile' not in payload['data']:
-                payload['data']['profile'] = data.profile
-
-        if data.hashtag is not None:
-            if 'hashtag' not in payload['data']:
-                payload['data']['hashtag'] = data.hashtag
-
-        if data.media_type is not None:
-            if 'media_type' not in payload['data']:
-                payload['data']['media_type'] = data.media_type
-
-        response = Client.post(url, payload)
-
-        if response is not None:
-            feed = FeedModel(
-                id=response['id'],
-                name=response['name']
-            )
-
-            return feed
-        else:
-            return response

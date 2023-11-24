@@ -23,6 +23,9 @@ dumps = partial(json.dumps, default=pydantic_encoder)
 class Resource(BaseModel, ABC):
     id: UUID = Field(default_factory=uuid4)
 
+    class Config:
+        validate_assignment = True
+
     @classmethod
     @abstractmethod
     def uri(cls, identifier: str | UUID = None) -> str:
@@ -52,4 +55,4 @@ class Resource(BaseModel, ABC):
         return self
 
     def _to_body(self):
-        return dumps(self.dict(exclude={'id'}, exclude_none=True, exclude_unset=True))
+        return dumps({'data': self.dict(exclude={'id'}, exclude_none=True, exclude_unset=True)})
