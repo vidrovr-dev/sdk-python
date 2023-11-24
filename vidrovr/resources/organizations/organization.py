@@ -1,15 +1,23 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class OrganizationData:
+class OrganizationModel(BaseModel):
+    """
+    Model of an organization
+
+    :param id: ID of the organization
+    :type id: str
+    :param organization_name: Name of the organization
+    :type organization_name: str
+    :param organization_status: Status of the organization
+    :type organization_status: str
+    """
     id: str
     organization_name: str
     organization_status: str
 
-class Organization(BaseModel):
+class Organization:
 
     @classmethod
     def read(cls, org_id: str):
@@ -23,17 +31,20 @@ class Organization(BaseModel):
         """
         url      = f'organizations/{org_id}'
         response = Client.get(url)
+        
+        if response is not None:
+            org = OrganizationModel(
+                id=response['id'],
+                organization_name=response['organization_name'],
+                organization_status=response['organization_status']
+            )
 
-        user = OrganizationData(
-            id=response['id'],
-            organization_name=response['organization_name'],
-            organization_status=response['organization_status']
-        )
-
-        return user
+            return org
+        else:
+            return response
     
     @classmethod
-    def update(cls, org_id: str, name: str):
+    def update(cls, data: OrganizationModel):
         """
         Update the name of an organization.
         
@@ -44,12 +55,19 @@ class Organization(BaseModel):
         :return: JSON string of the HTTP response
         :rtype: str
         """
-        url      = f'organizations/{org_id}'
+        url      = f'organizations/{data.id}'
         payload  = {
             'data': {
-                'name': name
+                'name': data.organization_name
             }
         }
         response = Client.patch(url, payload)
 
-        return response
+        if response is not None:
+            org = OrganizationModel(
+                id=response['id']
+            )
+
+            return org
+        else:
+            return response

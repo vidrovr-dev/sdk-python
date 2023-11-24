@@ -1,21 +1,27 @@
 import json
 
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class OrganizationUserData:
-    id: str
+class OrganizationUserModel(BaseModel):
+    """
+    Model of an organization user.
 
-@dataclass
-class OrganizationNewUserData:
-    email: str
-    role_id: str
-    project_ids: str
+    :param id: ID of the user
+    :type id: str
+    :param email: Email of the user
+    :type email: str
+    :param role_id: ID of the role for the user
+    :type role_id: str
+    :param project_ids: List of project IDs the user is assigned to
+    """
+    id: str | None
+    email: str | None
+    role_id: str | None
+    project_ids: list[str] | None
 
-class OrganizationUser(BaseModel):
+class OrganizationUser:
 
     @classmethod
     def read(cls, org_id: str):
@@ -29,12 +35,16 @@ class OrganizationUser(BaseModel):
         """
         url      = f'organizations/{org_id}/users/'
         response = Client.get(url)
-        org_user = [OrganizationUserData(**item) for item in response]
 
-        return org_user
-    
+        if response is not None:
+            org_user = [OrganizationUserModel(**item) for item in response]
+
+            return org_user
+        else:
+            return response
+        
     @classmethod
-    def update(cls, org_id: str, data: OrganizationNewUserData):
+    def update(cls, org_id: str, data: OrganizationUserModel):
         """
         Create a user in an organization.
         
@@ -55,4 +65,11 @@ class OrganizationUser(BaseModel):
         }
         response = Client.patch(url, payload)
 
-        return response
+        if response is not None:
+            user = OrganizationUserModel(
+                id=response['id']
+            )
+
+            return user
+        else:
+            return response
