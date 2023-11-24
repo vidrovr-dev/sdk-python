@@ -2,7 +2,6 @@ import json
 
 from vidrovr.core import Client
 
-from dataclasses import dataclass, asdict
 from pydantic import BaseModel
 
 class FeedScheduleModel(BaseModel):

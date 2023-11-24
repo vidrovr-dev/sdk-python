@@ -1,6 +1,7 @@
 # ignore some files
 api_returns.py
 api_test.py
+vidrovr/core/response.py
 
 # ignore some directories
 dist/
