@@ -5,7 +5,7 @@
 # By: Gianni Galbiati
 import os
 
-from functools import partial, wraps
+from functools import wraps
 
 import orjson as json
 import requests
@@ -23,7 +23,10 @@ API_VERSION = os.environ.get('VIDROVR_API_VERSION', 'v2')
 
 BASE_URL = f"{API_DOMAIN}/{API_VERSION}"
 
-HEADERS = {'x-api-key': API_KEY}
+HEADERS = {
+    'x-api-key': API_KEY,
+    'Accept': 'application/json'
+}
 
 
 def api_wrapper(method):
@@ -32,7 +35,10 @@ def api_wrapper(method):
 
     def wrapper(f):
         @wraps(f)
-        def wrapped(uri, headers: dict = None, body: dict = None, files=None):
+        def wrapped(uri: str,
+                    headers: dict = None,
+                    body: dict = None,
+                    files=None):
             # Resource URL
             url = f"{BASE_URL}/{uri}"
 
