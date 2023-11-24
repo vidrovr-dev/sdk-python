@@ -1,1 +1,1 @@
-from .languages import Language, LanguageData
+from .languages import Language, LanguageModel

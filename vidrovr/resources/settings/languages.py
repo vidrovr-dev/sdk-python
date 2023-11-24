@@ -1,10 +1,18 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class LanguageData:
+class LanguageModel(BaseModel):
+    """
+    Model of language settings.
+
+    :param audio_input: Spoken language of the source in the format of ISO langauge code-ISO Region code (en-US)
+    :type audio_input: str
+    :param on_screen_input: Language of the text written on screen of the source in the format of ISO language code (en)
+    :type on_screen_input: str
+    :param output: Language of the transcript produced by the platform in the format of ISO language code (en)
+    :type output: str
+    """
     audio_input: str = None
     on_screen_input: str = None
     output: str = None
@@ -24,16 +32,19 @@ class Language(BaseModel):
         url      = f'settings/processing/{project_id}/languages'
         response = Client.get(url)
 
-        language = LanguageData(
-            audio_input=response['audio_input'],
-            on_screen_input=response['on_screen_input'],
-            output=response['output']
-        )
+        if response is not None:
+            language = LanguageModel(
+                audio_input=response['audio_input'],
+                on_screen_input=response['on_screen_input'],
+                output=response['output']
+            )
 
-        return language
-    
+            return language
+        else:
+            return response
+            
     @classmethod
-    def update(cls, project_id: str, data: LanguageData):
+    def update(cls, project_id: str, data: LanguageModel):
         """
         Update the language settings for a project.
         
@@ -60,4 +71,13 @@ class Language(BaseModel):
 
         response = Client.patch(url, payload)
 
-        return response
+        if response is not None:
+            language = LanguageModel(
+                audio_input=response['audio_input'],
+                on_screen_input=response['on_screen_input'],
+                output=response['output']
+            )
+
+            return language
+        else:
+            return response
