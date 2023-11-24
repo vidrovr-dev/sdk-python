@@ -20,3 +20,7 @@ classifiers = [
 [project.urls]
 "Homepage" = "https://github.com/vidrovr-dev/sdk-python"
 "Bug Tracker" = "https://github.com/vidrovr-dev/sdk-python/issues"
+
+# TODO:
+# - Exclude tests from install
+# - Requirements
