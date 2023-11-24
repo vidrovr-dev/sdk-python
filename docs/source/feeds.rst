@@ -16,6 +16,10 @@ the vidrovr.resources.feeds.Feed object:
 
 .. autofunction:: vidrovr.resources.feeds.Feed.update
 
+The above methods make use of the FeedModel data object:
+
+.. autofunction:: vidrovr.resources.feeds.Feed.FeedModel
+
 Creating and reading feed schedules
 -----------------------------------
 
@@ -26,10 +30,12 @@ use the vidrovr.resources.feeds.FeedSchedule object:
 
 .. autofunction:: vidrovr.resources.feeds.FeedSchedule.read
 
+.. autofunction:: vidrovr.resources.feeds.FeedSchedule.update
+
 Reading feed details
 --------------------
 
 To retrieve details for a specific feed in a project, you can use the
 vidrovr.resources.feeds.FeedDetails object:
 
-.. autofunction:: vidrovr.resources.feeds.FeedDetail.read
+.. autofunction:: vidrovr.resources.feeds.FeedDetails.read

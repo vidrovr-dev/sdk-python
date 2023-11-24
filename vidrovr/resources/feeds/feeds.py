@@ -1,32 +1,76 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError, validator
 
-@dataclass
-class FeedData:
-    type: str
-    id: str
-    name: str
+from icecream import ic
 
-@dataclass
-class FeedItem:
+class FeedModel(BaseModel):
     """
-    Object for creating a new feed
+    Model of a feed
 
-    :param feed_type: Type of feed to create: youtube, instagram_profile, instagram_hastag, facebook_profile, hls
-    :type feed_type: str
-    :param name: Name of the feed
+    :param id: ID value of the feed
+    :type id: str
+    :param type: Type of feed to create: youtube, twitter_profile, twitter_hashtag, instagram_profile, instagram_hastag, facebook_profile, hls, rtmp, rtsp
+    :type type: str
+    :param name: Name of the feed, optional
     :type name: str
-    :param media_type: A thing
+    :param profile: Account handle for twitter, instagram and facebook. Required if type is twitter_profile, instagram_profile or facebook_profile
+    :type profile: str
+    :param hashtag: Name of the hashtag without the # symbol. Required if type is twitter_hashtag, instagram_hashtag or facebook_hashtag
+    :type hashtag: str
+    :param polling_freq: Polling frequency for the feed in seconds. Defaults to 3600.
+    :type polling_freq: int
+    :param media_type: Type of media in the feed: video, image, user_upload
+    :type media_type: str
+    :param link: URL of the HLS, rtmp, rtsp or YouTube stream
+    :type link: str
+    :param segment_length: Segment length of the RTMP feed in minutes. Defaults to 3.
+    :type segment_length: int
+    :param project_uids: Project ID that this feed will be associated with
+    :type project_uids: str
     """
-    feed_type: str
-    name: str
-    media_type: str
-    hls_link: str
-    project_uids: str
+    id: str = None
+    type: str = None
+    additional_metadata: str = None
+    creation_date: str = None
+    is_active: bool = True
+    next_poll_date: str = None
+    num_feed_items: int = 0
+    priority: int = 0
+    query_parameters: str = None
+    status: str = None
+    updated_date: str = None
+    name: str = 'Default'
+    profile: str = None
+    hashtag: str = None
+    polling_freq: int = 3600
+    media_type: str = None
+    link: str = None
+    segment_length: int = 3
+    project_uids: list[str] = None
 
-class Feed(BaseModel):
+    @validator("name", pre=True)
+    def check_name(cls, value):
+        if value is None:
+            value = 'Default'
+
+        return value
+    
+    @validator("polling_freq", pre=True)
+    def check_polling_freq(cls, value):
+        if value is None:
+            value = 3600
+
+        return value
+    
+    @validator("segment_length", pre=True)
+    def check_segment_length(cls, value):
+        if value is None:
+            value = 3
+
+        return value
+
+class Feed:
 
     @classmethod
     def read(cls, project_id: str):
@@ -36,21 +80,27 @@ class Feed(BaseModel):
         :param project_id: ID of the project to retrieve feeds from
         :type project_id: str
         :return: A list of all feeds in the project
-        :rtype: list[FeedData]
+        :rtype: list[FeedModel]
         """
         url      = f'feeds/?project_uid={project_id}'
         response = Client.get(url)
+        feeds    = []
 
-        if isinstance(response, dict):
-            feed_object = FeedData(
-                type=response['type'],
-                id=response['id'],
-                name=response['name']
-            )
-        elif isinstance(response, list):
-            feed_object = [FeedData(**item) for item in response]
+        if response is not None:
+            for item in response:
+                try:
+                    feed = FeedModel(
+                        id=item['id'],
+                        type=item['type'],
+                        name=item['name']
+                    )
+                    feeds.append(feed)
+                except ValidationError as e:
+                    print(f'Feed.read(): Validation error for {item}: {e}')
 
-        return feed_object
+            return feeds
+        else:
+            return response
     
     @classmethod
     def delete(cls, feed_id: str, project_id: str):
@@ -61,13 +111,21 @@ class Feed(BaseModel):
         :type feed_id: str
         :param project_id: ID of the project containing the feed to delete
         :type feed_id: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: A FeedModel on success
+        :rtype: FeedModel
         """
         url      = f'feeds/{feed_id}?project_uid={project_id}'
         response = Client.delete(url)
 
-        return response
+        if response is not None:
+            feed = FeedModel(
+                id=response['id'],
+                type=response['type']
+            )
+
+            return feed
+        else:        
+            return response
     
     @classmethod
     def update(cls, feed_id: str, project_id: str, status: bool):
@@ -82,40 +140,94 @@ class Feed(BaseModel):
         :type project_id: str
         :param status: Status of the feed
         :type status: bool
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: A FeedModel on success
+        :rtype: FeedModel
         """
         url = f'feeds/{feed_id}'
         payload = {
             'data': {
                 'is_active': status,
-                'project_uids': project_id
+                'project_uid': project_id
             }
         }
         response = Client.patch(url, payload)
 
-        return response
+        if response is not None:
+            feed = FeedModel(
+                additional_metadata=response['additional_metadata'],
+                creation_date=response['creation_date'],
+                id=response['id'],
+                is_active=response['is_active'],
+                name=response['name'],
+                next_poll_date=response['next_poll_date'],
+                num_feed_items=response['num_feed_items'],
+                polling_freq=response['polling_frequency'],
+                priority=response['priority'],
+                query_parameters=response['query_parameters'],
+                status=response['status'],
+                type=response['type'],
+                updated_date=response['updated_date']
+            )
+
+            return feed
+        else:
+            return response
     
     @classmethod
-    def create(cls, data: FeedItem):
+    def create(cls, data: FeedModel):
         """
         Creates a feed which Vidrovr will poll to ingest data into the system.
 
-        :param data: Dataclass object contiaining the info to create a feed
-        :type data: FeedItem
-        :return: JSON string containing the HTTP response
-        :rtype: str
+        :param data: FeedModel object contiaining the info to create a feed
+        :type data: FeedModel
+        :return: A FeedModel on success
+        :rtype: FeedModel
         """
         url     = 'feeds/'
         payload = {
             'data': {
-                'feed_type': data.feed_type,
                 'name': data.name,
-                'media_type': data.media_type,
-                'hls_link': data.hls_link,
-                'project_uids': [data.project_uids]
+                'polling_frequency': data.polling_freq,
+                'project_uids': data.project_uids,
+                'feed_type': data.type
             }
         }
+
+        # put the url in the right slot
+        if data.type == 'youtube':
+            if 'youtube_url' not in payload['data']:
+                payload['data']['youtube_url'] = data.link
+        elif data.type == 'hls':
+            if 'hls_link' not in payload['data']:
+                payload['data']['hls_link'] = data.link
+        elif data.type == 'rtmp':
+            if 'rtmp_link' not in payload['data']:
+                payload['data']['rtmp_link'] = data.link
+        elif data.type == 'rtsp':
+            if 'rtsp_link' not in payload['data']:
+                payload['data']['rtsp_link'] = data.link
+
+        # check for optional items
+        if data.profile is not None:
+            if 'profile' not in payload['data']:
+                payload['data']['profile'] = data.profile
+
+        if data.hashtag is not None:
+            if 'hashtag' not in payload['data']:
+                payload['data']['hashtag'] = data.hashtag
+
+        if data.media_type is not None:
+            if 'media_type' not in payload['data']:
+                payload['data']['media_type'] = data.media_type
+
         response = Client.post(url, payload)
 
-        return response
+        if response is not None:
+            feed = FeedModel(
+                id=response['id'],
+                name=response['name']
+            )
+
+            return feed
+        else:
+            return response

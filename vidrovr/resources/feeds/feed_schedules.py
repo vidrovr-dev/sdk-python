@@ -1,18 +1,16 @@
 import json
 
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass, asdict
 from pydantic import BaseModel
 
-@dataclass
-class FeedScheduleData:
-    id: str
-    day_of_week: str
-    start_time: str
-    end_time: str
+class FeedScheduleModel(BaseModel):
+    id: str = None
+    day_of_week: str = None
+    start_time: str = None
+    end_time: str = None
 
-class FeedSchedule(BaseModel):
+class FeedSchedule:
 
     @classmethod
     def read(cls, project_id: str, feed_id: str, feed_schedule_id: str=None):
@@ -33,18 +31,22 @@ class FeedSchedule(BaseModel):
         else:
             url = f'feeds/{feed_id}/schedules/{feed_schedule_id}/?project_uid={project_id}'
 
-        response      = Client.get(url)
-        feed_schedule = FeedScheduleData(
-            id=response['id'],
-            day_of_week=response['creation_date'],
-            start_time=response['is_active'],
-            end_time=response['name']
-        )
+        response = Client.get(url)
 
-        return feed_schedule
+        if response is not None:
+            feed_schedule = FeedScheduleModel(
+                id=response['id'],
+                day_of_week=response['creation_date'],
+                start_time=response['is_active'],
+                end_time=response['name']
+            )
+
+            return feed_schedule
+        else:
+            return response
     
     @classmethod
-    def create(cls, feed_id: str, project_id: str, data: FeedScheduleData):
+    def create(cls, feed_id: str, project_id: str, data: FeedScheduleModel):
         """
         Create a schedule for a feed. For HLS Feeds, a specified schedule is needed. 
         You can provide as many as you need. If you'd like to poll the feed always, 

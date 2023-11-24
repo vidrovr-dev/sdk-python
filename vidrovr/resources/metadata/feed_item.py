@@ -1,7 +1,6 @@
 from ...core.client import Client
 
 from dataclasses import dataclass
-from icecream import ic
 from pydantic import BaseModel
 
 @dataclass

@@ -24,7 +24,7 @@ class Project(BaseModel):
         
         :param project_id: ID of the projec or None
         :type project_id: str
-        :return: Array of project infomration or a single project
+        :return: Array of project information or a single project
         :rtype: list[ProjectData] or ProjectData
         """
         if project_id is None:

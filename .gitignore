@@ -1,12 +1,16 @@
 # ignore some files
 api_returns.py
 api_test.py
-json_exclude.py
-README.rst
-vidrovr/core/.env
+vidrovr/core/response.py
 
 # ignore some directories
+<<<<<<< HEAD
 docs/build
+=======
+dist/
+docs/build
+vidrovr/__pycache__
+>>>>>>> e758591d0b13155cc619ced442e6e23ce76422d4
 vidrovr/core/__pycache__
 vidrovr/resources/__pycache__
 vidrovr/resources/custom_persons/__pycache__

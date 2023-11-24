@@ -1,19 +1,38 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class CustomTagData:
-    id: str
-    name: str
-    is_active: bool
-    creation_date: str
-    num_examples: int
-    num_reviewed: int
-    num_unreviewed: int
+class CustomTagModel(BaseModel):
+    """
+    Model of a custom tag.
 
-class CustomTag(BaseModel):
+    :param id: ID of the custom tag
+    :type id: str
+    :param name: Name of the custom tag
+    :type name: str
+    :param type: Type of tag
+    :type type: str
+    :param is_active: Indicates if the custom tag is active or not
+    :type is_active: bool
+    :param creation_date: Date the custom tag was created
+    :type creation_date: str
+    :param num_examples: Number of examples for the custom tag
+    :type num_examples: int
+    :param num_reviewed: Number of reviewd examples for the custom tag
+    :type num_reviewed: int
+    :param num_unreviewed: Number of unreviewed examples for the custom tag
+    :type num_unreviewed: int
+    """
+    id: str | None
+    name: str | None
+    type: str | None
+    is_active: bool | False
+    creation_date: str | None
+    num_examples: int | 0
+    num_reviewed: int | 0
+    num_unreviewed: int | 0
+
+class CustomTag:
 
     @classmethod
     def read(cls, project_id: str, tag_id: str=None):
@@ -26,7 +45,7 @@ class CustomTag(BaseModel):
         :param tag_id: ID of the custom tag or None
         :type tag_id: str
         :return: Array of custom tags in the project or the details of a specific tag
-        :rtype: list[TagData] or TagData
+        :rtype: list[CustomTagModel] or CustomTagModel
         """
         if tag_id is None:
             url = f'customdata/tags/?project_uid={project_id}'
@@ -35,20 +54,23 @@ class CustomTag(BaseModel):
 
         response = Client.get(url)
 
-        if isinstance(response, dict):
-            custom_tag = CustomTagData(
-                id=response['id'],
-                name=response['name'],
-                is_active=response['is_active'],
-                creation_date=response['creation_date'],
-                num_examples=response['num_examples'],
-                num_reviewed=response['num_reviewed'],
-                num_unreviewed=response['num_unreviewed']
-            )
-        elif isinstance(response, list): 
-            custom_tag = [CustomTagData(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                custom_tag = CustomTagModel(
+                    id=response['id'],
+                    name=response['name'],
+                    is_active=response['is_active'],
+                    creation_date=response['creation_date'],
+                    num_examples=response['num_examples'],
+                    num_reviewed=response['num_reviewed'],
+                    num_unreviewed=response['num_unreviewed']
+                )
+            elif isinstance(response, list): 
+                custom_tag = [CustomTagModel(**item) for item in response]
 
-        return custom_tag
+            return custom_tag
+        else:
+            return response
     
     @classmethod
     def delete(cls, tag_id: str, project_id: str):
@@ -59,13 +81,21 @@ class CustomTag(BaseModel):
         :type tag_id: str
         :param project_id: ID of the project containing the tag to delete
         :type project_id: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: Data object containing the ID of the deleted custom tag
+        :rtype: CustomTagModel
         """
         url      = f'customdata/tags/{tag_id}?project_uid={project_id}'
         response = Client.delete(url)
 
-        return response
+        if response is not None:
+            tag = CustomTagModel(
+                id=response['id'],
+                type=response['type']
+            )
+
+            return tag
+        else:
+            return response
     
     @classmethod
     def create(cls, project_id: str, tag_name: str):
@@ -76,8 +106,8 @@ class CustomTag(BaseModel):
         :type project_id: str
         :param tag_name: Name of the tag
         :type tag_name: str
-        :return: JSON string of the HTTP response
-        :rtype: str
+        :return: Data object containing the id and name of the new custom tag
+        :rtype: CustomTagModel
         """
         url     = 'customdata/tags'
         payload = {
@@ -88,4 +118,12 @@ class CustomTag(BaseModel):
         }
         response = Client.post(url, payload)
 
-        return response
+        if response is not None:
+            tag = CustomTagModel(
+                id=response['id'],
+                name=response['name']
+            )
+
+            return tag
+        else:
+            return response

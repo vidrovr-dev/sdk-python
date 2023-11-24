@@ -1,16 +1,26 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class PersonExampleData:
-    id: str
-    href: str
-    source: str
-    status: str
+class PersonExampleModel(BaseModel):
+    """
+    Model of a person example.
 
-class PersonExample(BaseModel):
+    :param id: ID of the person example
+    :type id: str
+    :param href: URL of the person
+    :type href: str
+    :param source: Source of the person
+    :type source: str
+    :param status: Status of the example
+    :type status: str
+    """
+    id: str | None
+    href: str | None
+    source: str | None
+    status: str | None
+
+class PersonExample:
 
     @classmethod
     def read(cls, project_id: str, person_id: str, example_id: str=None):
@@ -35,17 +45,20 @@ class PersonExample(BaseModel):
 
         response = Client.get(url)
 
-        if isinstance(response, dict):
-            person = PersonExampleData(
-                id=response['id'],
-                href=response['href'],
-                source=response['source'],
-                status=response['status']
-            )
-        elif isinstance(response, list): 
-            person = [PersonExampleData(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                person = PersonExampleModel(
+                    id=response['id'],
+                    href=response['href'],
+                    source=response['source'],
+                    status=response['status']
+                )
+            elif isinstance(response, list): 
+                person = [PersonExampleModel(**item) for item in response]
 
-        return person
+            return person
+        else:
+            return response
     
     @classmethod
     def update(cls, person_id: str, example_id: str, project_id: str, new_label: str):
