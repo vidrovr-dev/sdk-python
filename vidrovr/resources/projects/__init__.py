@@ -1,1 +1,1 @@
-from .projects import Project, ProjectData
+from vidrovr.resources.projects.projects import Project, ProjectModel

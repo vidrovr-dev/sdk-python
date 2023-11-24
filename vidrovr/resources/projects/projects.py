@@ -1,21 +1,41 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError, validator
+from icecream import ic
 
-@dataclass
-class ProjectData:
-    id: str
-    name: str
-    user_ids: str
-    creation_date: str
+class ProjectModel(BaseModel):
+    """
+    Model of a project
 
-@dataclass
-class ProjectList:
-    id: str
-    name: str
+    :param id: ID of the project
+    :type id: str
+    :param name: Name of the project
+    :type name: str
+    :param user_ids: List of user ID values 
+    :type user_ids: list[str]
+    :param creation_date: Creation date of the project
+    :type creation_date: str
+    """
+    id: str = None
+    name: str = None
+    user_ids: list[str] = None
+    creation_date: str = None
 
-class Project(BaseModel):
+    @validator("user_ids", pre=True)
+    def check_user_ids(cls, value):
+        if value is None:
+            value = 'Default'
+
+        return value
+    
+    @validator("creation_date", pre=True)
+    def check_creation_date(cls, value):
+        if value is None:
+            value = 'None'
+
+        return value
+
+class Project:
 
     @classmethod
     def read(cls, project_id: str = None):
@@ -34,18 +54,21 @@ class Project(BaseModel):
 
         response = Client.get(url)
 
-        if isinstance(response, dict):
-            project = ProjectData(
-                id=response['id'],
-                name=response['name'],
-                user_ids=response['user_ids'],
-                creation_date=response['creation_date']
-            )
-        elif isinstance(response, list):
-            project = [ProjectList(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                project = ProjectModel(
+                    id=response['id'],
+                    name=response['name'],
+                    user_ids=response['user_ids'],
+                    creation_date=response['creation_date']
+                )
+            elif isinstance(response, list):
+                project = [ProjectModel(**item) for item in response]
 
-        return project
-    
+            return project
+        else:
+            return response
+            
     @classmethod
     def delete(cls, project_id: str):
         """

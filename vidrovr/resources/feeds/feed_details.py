@@ -27,17 +27,17 @@ class FeedDetailModel(BaseModel):
     :param updated_date: Last date the feed was updated
     :type updated_date: str
     """
-    type: str | None
-    id: str | None
-    creation_date: str | None
-    is_active: bool | False
-    name: str | None
-    next_poll_date: str | None
-    num_feed_items: str | None
-    polling_frequency: int | 0
-    query_parameters: str | None
-    status: str | None
-    updated_date: str | None
+    type: str = None
+    id: str = None
+    creation_date: str = None
+    is_active: bool = False
+    name: str = None
+    next_poll_date: str = None
+    num_feed_items: str = None
+    polling_frequency: int = 0
+    query_parameters: str = None
+    status: str = None
+    updated_date: str = None
 
 class FeedDetail:
 
