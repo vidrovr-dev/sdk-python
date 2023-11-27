@@ -1,15 +1,23 @@
-from ....core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class IABAppearanceData:
-    asset_id: str
-    name: str
-    appearances: list
+class IABAppearanceModel(BaseModel):
+    """
+    Model of IAB tag appearances
 
-class IABAppearances(BaseModel):
+    :param id: ID of the IAB tag appearance
+    :type id: str
+    :param name: Name of the IAB tag appearing
+    :type name: str
+    :param appearances: List of something
+    :type appearances: list
+    """
+    asset_id: str = None
+    name: str = None
+    appearances: list = None
+
+class IABAppearances:
 
     @classmethod
     def read(cls, asset_id: str):
@@ -19,10 +27,10 @@ class IABAppearances(BaseModel):
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the IAB tag appearances
-        :rtype: list[IABAppearanceData]
+        :rtype: list[IABAppearanceModel]
         """
         url      = f'metadata/{asset_id}/appearances/iab_tags'
         response = Client.get(url)
-        iab      = [IABAppearanceData(**item) for item in response]
+        iab      = [IABAppearanceModel(**item) for item in response]
 
         return iab

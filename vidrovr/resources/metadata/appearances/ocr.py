@@ -1,15 +1,23 @@
-from ....core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class OCRAppearanceData:
-    asset_id: str
-    text: str
-    appearances: list
+class OCRAppearanceModel(BaseModel):
+    """
+    Model of on screen text appearances
 
-class OCRAppearances(BaseModel):
+    :param id: ID of the on screen text appearance
+    :type id: str
+    :param name: Name of the on screen text appearing
+    :type name: str
+    :param appearances: List of something
+    :type appearances: list
+    """
+    asset_id: str = None
+    text: str = None
+    appearances: list = None
+
+class OCRAppearances:
 
     @classmethod
     def read(cls, asset_id: str):
@@ -19,10 +27,10 @@ class OCRAppearances(BaseModel):
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the OCR appearances
-        :rtype: list[OCRAppearanceData]
+        :rtype: list[OCRAppearanceModel]
         """
         url      = f'metadata/{asset_id}/appearances/ocr'
         response = Client.get(url)
-        ocr      = [OCRAppearanceData(**item) for item in response]
+        ocr      = [OCRAppearanceModel(**item) for item in response]
 
         return ocr

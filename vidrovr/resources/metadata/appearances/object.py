@@ -1,15 +1,23 @@
-from ....core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class ObjectAppearanceData:
-    id: str
-    name: str
-    appearances: list
+class ObjectAppearanceModel(BaseModel):
+    """
+    Model of object appearances
 
-class ObjectAppearances(BaseModel):
+    :param id: ID of the object appearance
+    :type id: str
+    :param name: Name of the object appearing
+    :type name: str
+    :param appearances: List of something
+    :type appearances: list
+    """
+    id: str = None
+    name: str = None
+    appearances: list = None
+
+class ObjectAppearances:
 
     @classmethod
     def read(cls, asset_id: str):
@@ -19,10 +27,10 @@ class ObjectAppearances(BaseModel):
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the object appearances
-        :rtype: list[ObjectAppearanceData]
+        :rtype: list[ObjectAppearanceModel]
         """
         url      = f'metadata/{asset_id}/appearances/objects'
         response = Client.get(url)
-        obj      = [ObjectAppearanceData(**item) for item in response]
+        obj      = [ObjectAppearanceModel(**item) for item in response]
 
         return obj

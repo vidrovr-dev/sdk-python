@@ -1,17 +1,29 @@
-from ....core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class TranscriptAppearanceData:
-    id: str
-    language: str
-    text: str
-    start: str
-    end: str
+class TranscriptAppearanceModel(BaseModel):
+    """
+    Model of person appearances
 
-class TranscriptAppearances(BaseModel):
+    :param id: ID of the transcript appearance
+    :type id: str
+    :param language: Language of the transcript appearing
+    :type language: str
+    :param text: Text of the transcript appearance
+    :type text: str
+    :param start: Timestamp for the start of the transcript appearance
+    :type start: str
+    :param end: Timestamp for the end of the transcript appearance
+    :type end: str
+    """
+    id: str = None
+    language: str = None
+    text: str = None
+    start: str = None
+    end: str = None
+
+class TranscriptAppearances:
 
     @classmethod
     def read(cls, asset_id: str):
@@ -21,10 +33,10 @@ class TranscriptAppearances(BaseModel):
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the transcript chunks
-        :rtype: list[TranscriptAppearanceData]
+        :rtype: list[TranscriptAppearanceModel]
         """
         url        = f'metadata/{asset_id}/appearances/transcripts'
         response   = Client.get(url)
-        transcript = [TranscriptAppearanceData(**item) for item in response]
+        transcript = [TranscriptAppearanceModel(**item) for item in response]
 
         return transcript
