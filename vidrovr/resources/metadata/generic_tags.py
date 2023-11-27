@@ -1,16 +1,26 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class GenericTagData:
-    asset_id: str
-    name: str
-    time: str
-    score: float
+class GenericTagModel(BaseModel):
+    """
+    Model of a generic tag
 
-class GenericTag(BaseModel):
+    :param asset_id: ID of the detection
+    :type asset_id: str
+    :param name: Name of the generic tag detected
+    :type name: str
+    :param time: Timestamp for detection of the tag
+    :type time: str
+    :param score: Confidence score of the detection
+    :type score: float
+    """
+    id: str = None
+    name: str = None
+    time: str = None
+    score: float = 0.0
+
+class GenericTag:
 
     @classmethod
     def read(cls, asset_id: str, tag_id: str=None):
@@ -22,7 +32,7 @@ class GenericTag(BaseModel):
         :param tag_id: ID of the tag or None
         :type tag_id: str
         :return: Array of generic tag detections or single generic tag detection
-        :rtype: list[GenericTagData] or GenericTagData
+        :rtype: list[GenericTagModel] or GenericTagModel
         """
         if tag_id is None:
             url      = f'metadata/{asset_id}/generic_tags'
@@ -31,14 +41,17 @@ class GenericTag(BaseModel):
             url      = f'metadata/{asset_id}/generic_tags/{tag_id}'
             response = Client.get(url)
 
-        if isinstance(response, dict):
-            generic_tag = GenericTagData(
-                asset_id=response['id'],
-                name=response['name'],
-                time=response['time'],
-                score=response['score']
-            )
-        elif isinstance(response, list):
-            generic_tag = [GenericTagData(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                generic_tag = GenericTagModel(
+                    id=response['id'],
+                    name=response['name'],
+                    time=response['time'],
+                    score=response['score']
+                )
+            elif isinstance(response, list):
+                generic_tag = [GenericTagModel(**item) for item in response]
 
-        return generic_tag
+            return generic_tag
+        else:
+            return response

@@ -1,16 +1,26 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class CustomTagData:
-    asset_id: str
-    name: str
-    time: str
-    score: float
+class CustomTagModel(BaseModel):
+    """
+    Model of a custom tag
 
-class CustomTag(BaseModel):
+    :param asset_id: ID of the detection
+    :type asset_id: str
+    :param name: Name of the custom tag detected
+    :type name: str
+    :param time: Timestamp for detection of the tag
+    :type time: str
+    :param score: Confidence score for the detection
+    :type score: float
+    """
+    id: str = None
+    name: str = None
+    time: str = None
+    score: float = 0.0
+
+class CustomTag:
 
     @classmethod
     def read(cls, asset_id: str, tag_id: str=None):
@@ -22,7 +32,7 @@ class CustomTag(BaseModel):
         :param tag_id: ID of the tag or None
         :type tag_id: str
         :return: Array of custom tag detections or a single custom tag detection
-        :rtype: list[CustomTagData] or CustomTagData
+        :rtype: list[CustomTagModel] or CustomTagModel
         """
         if tag_id is None:
             url      = f'metadata/{asset_id}/custom_tags'
@@ -31,14 +41,17 @@ class CustomTag(BaseModel):
             url      = f'metadata/{asset_id}/custom_tags/{tag_id}'
             response = Client.get(url)
 
-        if isinstance(response, dict):
-            custom_tag = CustomTagData(
-                asset_id=response['id'],
-                name=response['name'],
-                time=response['time'],
-                score=response['score']
-            )
-        elif isinstance(response, list):
-            custom_tag = [CustomTagData(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                custom_tag = CustomTagModel(
+                    id=response['id'],
+                    name=response['name'],
+                    time=response['time'],
+                    score=response['score']
+                )
+            elif isinstance(response, list):
+                custom_tag = [CustomTagModel(**item) for item in response]
 
-        return custom_tag
+            return custom_tag
+        else:
+            return response

@@ -1,23 +1,47 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class ObjectData:
-    id: str
-    label_id: str
-    label_name: str
-    time: str
-    score: float
-    x: float
-    y: float
-    w: float
-    h: float
-    frame_height: int
-    frame_width: int
+class ObjectModel(BaseModel):
+    """
+    Model of an object
 
-class Object(BaseModel):
+    :param id: ID of the detection
+    :type id: str
+    :param label_id: ID of the object detected
+    :type label_id: str
+    :param label_name: Name of the object detected
+    :type label_name: str
+    :param time: Timestamp for the detection
+    :type time: str
+    :param score: Confidence score of the detection
+    :type score: float
+    :param x: X coordinate of the detection
+    :type x: float
+    :param y: Y coordinate of the detection
+    :type y: float
+    :param w: Width of the detection
+    :type w: float
+    :param h: Height of the detection
+    :type h: float
+    :param frame_height: Height of the asset in pixels
+    :type frame_height: int
+    :param frame_width: Width of the asset in pixels
+    :type frame_width: int
+    """
+    id: str = None
+    label_id: str = None
+    label_name: str = None
+    time: str = None
+    score: float = 0.0
+    x: float = 0.0
+    y: float = 0.0
+    w: float = 0.0
+    h: float = 0.0
+    frame_height: int = 0
+    frame_width: int = 0
+
+class Object:
 
     @classmethod
     def read(cls, asset_id: str, obj_detection_id: str=None):
@@ -29,7 +53,7 @@ class Object(BaseModel):
         :param obj_detection_id: ID of the object detection or None
         :type obj_detection_id: str
         :return: Array of object detections of single object detection
-        :rtype: list[ObjectData] or ObjectData
+        :rtype: list[ObjectModel] or ObjectModel
         """
         if obj_detection_id is None:
             url      = f'metadata/{asset_id}/object_detections'
@@ -38,21 +62,24 @@ class Object(BaseModel):
             url      = f'metadata/{asset_id}/object_detections/{obj_detection_id}'
             response = Client.get(url)
 
-        if isinstance(response, dict):
-            obj = ObjectData(
-                id=response['id'],
-                label_id=response['label_id'],
-                label_name=response['label_name'],
-                time=response['time'],
-                score=response['score'],
-                x=response['x'],
-                y=response['y'],
-                w=response['w'],
-                h=response['h'],
-                frame_height=response['frame_height'],
-                frame_width=response['frame_width']
-            )
-        elif isinstance(response, list):
-            obj = [ObjectData(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                obj = ObjectModel(
+                    id=response['id'],
+                    label_id=response['label_id'],
+                    label_name=response['label_name'],
+                    time=response['time'],
+                    score=response['score'],
+                    x=response['x'],
+                    y=response['y'],
+                    w=response['w'],
+                    h=response['h'],
+                    frame_height=response['frame_height'],
+                    frame_width=response['frame_width']
+                )
+            elif isinstance(response, list):
+                obj = [ObjectModel(**item) for item in response]
 
-        return obj
+            return obj
+        else:
+            return response

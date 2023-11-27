@@ -7,6 +7,8 @@ Reading metadata
 To retrieve metadata for a variety of objects within an asset,
 you can use the objects in vidrovr.resources.metadata.
 
+.. autofunction:: vidrovr.resources.metadata.AssetItem.read
+    
 .. autofunction:: vidrovr.resources.metadata.CustomTag.read
 
 .. autofunction:: vidrovr.resources.metadata.GenericTag.read

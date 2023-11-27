@@ -1,17 +1,29 @@
-from ...core import Client
+from vidrovr.core import Client
 
-from dataclasses import dataclass
 from pydantic import BaseModel
 
-@dataclass
-class NamedEntitiesData:
-    id: str
-    name: str
-    entity_type: str
-    time: str
-    score: float
+class NamedEntitiesModel(BaseModel):
+    """
+    Model of named entities
 
-class NamedEntities(BaseModel):
+    :param id: ID of the named entity
+    :type id: str
+    :param name: Name of the entity detected
+    :type name: str
+    :param entity_type: Type of named entity detected
+    :type entity_type: str
+    :param time: Timestamp for the detection
+    :type time: str
+    :param score: Confidence score for the detection
+    :type score: float
+    """
+    id: str = None
+    name: str = None
+    entity_type: str = None
+    time: str = None
+    score: float = 0.0
+
+class NamedEntities:
 
     @classmethod
     def read(cls, asset_id: str, entity_id: str=None):
@@ -23,7 +35,7 @@ class NamedEntities(BaseModel):
         :param entity_id: ID of the named entity or None
         :type entity_id: str
         :return: Array of named entities or single named entity
-        :rtype: list[NamedEntitiesData] or NamedEntitiesData
+        :rtype: list[NamedEntitiesModel] or NamedEntitiesModel
         """
         if entity_id is None:
             url      = f'metadata/{asset_id}/named_entities'
@@ -32,15 +44,18 @@ class NamedEntities(BaseModel):
             url      = f'metadata/{asset_id}/named_entities/{entity_id}'
             response = Client.get(url)
 
-        if isinstance(response, dict):
-            named_entity = NamedEntitiesData(
-                id=response['id'],
-                name=response['name'],
-                entity_type=response['entity_type'],
-                time=response['time'],
-                score=response['score']
-            )
-        elif isinstance(response, list):
-            named_entity = [NamedEntitiesData(**item) for item in response]
+        if response is not None:
+            if isinstance(response, dict):
+                named_entity = NamedEntitiesModel(
+                    id=response['id'],
+                    name=response['name'],
+                    entity_type=response['entity_type'],
+                    time=response['time'],
+                    score=response['score']
+                )
+            elif isinstance(response, list):
+                named_entity = [NamedEntitiesModel(**item) for item in response]
 
-        return named_entity
+            return named_entity
+        else:
+            return response
