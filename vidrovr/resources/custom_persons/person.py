@@ -21,13 +21,13 @@ class PersonModel(BaseModel):
     :param num_unreviewed: Number of example of the person that have not been reviewed
     :type num_unreviewed: int
     """
-    id: str | None
-    name: str | None
-    creation_date: str | None
-    is_active: bool | False
-    num_examples: int | 0
-    num_reviewed: int | 0
-    num_unreviewed: int | 0
+    id: str = None
+    name: str = None
+    creation_date: str = None
+    is_active: bool = False
+    num_examples: int = 0
+    num_reviewed: int = 0
+    num_unreviewed: int = 0
 
 class Person:
 

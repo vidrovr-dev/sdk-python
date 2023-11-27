@@ -15,10 +15,10 @@ class ClassifierModel(BaseModel):
     :param is_active: Indicates if the classifier is active or not
     :type is_active: bool
     """
-    id: str | None
-    name: str | None
-    training_state: str | None
-    is_active: bool | False
+    id: str = None
+    name: str = None
+    training_state: str = None
+    is_active: bool = False
 
 class Classifier:
 

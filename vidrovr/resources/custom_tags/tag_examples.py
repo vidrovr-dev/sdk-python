@@ -15,10 +15,10 @@ class CustomTagExampleModel(BaseModel):
     :param status: Status of the tag example - accepted, rejected or candidate
     :type status: str
     """
-    id: str | None
-    href: str | None
-    source: str | None
-    status: str | None
+    id: str = None
+    href: str = None
+    source: str = None
+    status: str = None
 
 class CustomTagExample:
 

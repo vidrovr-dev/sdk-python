@@ -2,7 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
-class TranscriptAppearanceModel(BaseModel):
+class TranscriptAppearancesModel(BaseModel):
     """
     Model of person appearances
 
@@ -37,6 +37,6 @@ class TranscriptAppearances:
         """
         url        = f'metadata/{asset_id}/appearances/transcripts'
         response   = Client.get(url)
-        transcript = [TranscriptAppearanceModel(**item) for item in response]
+        transcript = [TranscriptAppearancesModel(**item) for item in response]
 
         return transcript

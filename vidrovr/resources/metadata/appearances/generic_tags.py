@@ -2,7 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
-class GenericTagsAppearanceModel(BaseModel):
+class GenericTagsAppearancesModel(BaseModel):
     """
     Model of generic tag appearances
 
@@ -27,10 +27,10 @@ class GenericTagsAppearances:
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the generic tag appearances
-        :rtype: list[GenericTagsAppearanceModel]
+        :rtype: list[GenericTagsAppearancesModel]
         """
         url          = f'metadata/{asset_id}/appearances/generic_tags'
         response     = Client.get(url)
-        generic_tags = [GenericTagsAppearanceModel(**item) for item in response]
+        generic_tags = [GenericTagsAppearancesModel(**item) for item in response]
 
         return generic_tags

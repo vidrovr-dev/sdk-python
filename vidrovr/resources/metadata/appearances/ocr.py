@@ -2,7 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
-class OCRAppearanceModel(BaseModel):
+class OCRAppearancesModel(BaseModel):
     """
     Model of on screen text appearances
 
@@ -27,10 +27,10 @@ class OCRAppearances:
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the OCR appearances
-        :rtype: list[OCRAppearanceModel]
+        :rtype: list[OCRAppearancesModel]
         """
         url      = f'metadata/{asset_id}/appearances/ocr'
         response = Client.get(url)
-        ocr      = [OCRAppearanceModel(**item) for item in response]
+        ocr      = [OCRAppearancesModel(**item) for item in response]
 
         return ocr

@@ -5,6 +5,18 @@ from vidrovr.core import Client
 from pydantic import BaseModel
 
 class FeedScheduleModel(BaseModel):
+    """
+    Model of feed schedule
+
+    :param id: ID of the schedule
+    :type id: str
+    :param day_of_week: The day of the week that the feed polls
+    :type day_of_week: str
+    :param start_time: Start time for polling
+    :type start_time: str
+    :param end_time: End time for polling
+    :type end_time: str
+    """
     id: str = None
     day_of_week: str = None
     start_time: str = None

@@ -23,14 +23,14 @@ class CustomTagModel(BaseModel):
     :param num_unreviewed: Number of unreviewed examples for the custom tag
     :type num_unreviewed: int
     """
-    id: str | None
-    name: str | None
-    type: str | None
-    is_active: bool | False
-    creation_date: str | None
-    num_examples: int | 0
-    num_reviewed: int | 0
-    num_unreviewed: int | 0
+    id: str = None
+    name: str = None
+    type: str = None
+    is_active: bool = False
+    creation_date: str = None
+    num_examples: int = 0
+    num_reviewed: int = 0
+    num_unreviewed: int = 0
 
 class CustomTag:
 

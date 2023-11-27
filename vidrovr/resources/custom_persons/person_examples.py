@@ -15,10 +15,10 @@ class PersonExampleModel(BaseModel):
     :param status: Status of the example
     :type status: str
     """
-    id: str | None
-    href: str | None
-    source: str | None
-    status: str | None
+    id: str = None
+    href: str = None
+    source: str = None
+    status: str = None
 
 class PersonExample:
 

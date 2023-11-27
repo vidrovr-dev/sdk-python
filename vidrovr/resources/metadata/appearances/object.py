@@ -2,7 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
-class ObjectAppearanceModel(BaseModel):
+class ObjectAppearancesModel(BaseModel):
     """
     Model of object appearances
 
@@ -27,10 +27,10 @@ class ObjectAppearances:
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information about the object appearances
-        :rtype: list[ObjectAppearanceModel]
+        :rtype: list[ObjectAppearancesModel]
         """
         url      = f'metadata/{asset_id}/appearances/objects'
         response = Client.get(url)
-        obj      = [ObjectAppearanceModel(**item) for item in response]
+        obj      = [ObjectAppearancesModel(**item) for item in response]
 
         return obj

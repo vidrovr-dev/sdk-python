@@ -36,10 +36,6 @@ Save the file and restart your shell. In this example, the shell is zsh.
 
    $ source .zshrc
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e758591d0b13155cc619ced442e6e23ce76422d4
 Example
 -------
 

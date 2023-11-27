@@ -2,7 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
-class NamedEntitiesAppearanceModel(BaseModel):
+class NamedEntitiesAppearancesModel(BaseModel):
     """
     Model of named entity appearances
 
@@ -27,10 +27,10 @@ class NamedEntitiesAppearances:
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Array of information for the named entities
-        :rtype: list[NamedEntitiesAppearanceModel]
+        :rtype: list[NamedEntitiesAppearancesModel]
         """
         url          = f'metadata/{asset_id}/appearances/named_entities'
         response     = Client.get(url)
-        named_entity = [NamedEntitiesAppearanceModel(**item) for item in response]
+        named_entity = [NamedEntitiesAppearancesModel(**item) for item in response]
 
         return named_entity
