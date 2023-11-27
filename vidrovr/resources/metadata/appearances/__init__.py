@@ -1,8 +1,8 @@
-from .custom_tags import CustomTagsAppearances, CustomTagsAppearanceData
-from .generic_tags import GenericTagsAppearances, GenericTagsAppearanceData
-from .iab_tags import IABAppearances, IABAppearanceData
-from .named_entities import NamedEntitiesAppearances, NamedEntitiesAppearanceData
-from .object import ObjectAppearances, ObjectAppearanceData
-from .ocr import OCRAppearances, OCRAppearanceData
-from .person import PersonAppearances, PersonAppearanceData
-from .transcript import TranscriptAppearances, TranscriptAppearanceData
+from vidrovr.resources.metadata.appearances.custom_tags import CustomTagsAppearances, CustomTagsAppearanceModel
+from vidrovr.resources.metadata.appearances.generic_tags import GenericTagsAppearances, GenericTagsAppearanceModel
+from vidrovr.resources.metadata.appearances.iab_tags import IABAppearances, IABAppearanceModel
+from vidrovr.resources.metadata.appearances.named_entities import NamedEntitiesAppearances, NamedEntitiesAppearanceModel
+from vidrovr.resources.metadata.appearances.object import ObjectAppearances, ObjectAppearanceModel
+from vidrovr.resources.metadata.appearances.ocr import OCRAppearances, OCRAppearanceModel
+from vidrovr.resources.metadata.appearances.person import PersonAppearances, PersonAppearanceModel
+from vidrovr.resources.metadata.appearances.transcript import TranscriptAppearances, TranscriptAppearanceModel

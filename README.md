@@ -44,11 +44,11 @@ Here's a small example for retrieving metadata of an asset in the platform.
    import vidrovr.resources.metadata as metadata
 
    def main():
-     asset_id  = 'id_of_asset'
-     feed_item = metadata.FeedItem.read(asset_id)
+     asset_id = 'id_of_asset'
+     asset_item = metadata.AssetItem.read(asset_id)
 
-     print(feed_item.title)
-     print(feed_item.asset_id)
+     print(asset_item.title)
+     print(asset_item.asset_id)
 
    if __name__ == "__main__":
       main() 
