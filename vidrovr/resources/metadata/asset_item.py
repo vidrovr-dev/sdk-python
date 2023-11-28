@@ -1,6 +1,7 @@
 from vidrovr.core.client import Client
 
 from pydantic import BaseModel
+from icecream import ic
 
 class AssetItemModel(BaseModel):
     """
@@ -39,7 +40,7 @@ class AssetItemModel(BaseModel):
     asset_id: str = None
     media_url: str = None
     mime_type: str = None
-    processing_info: str = None
+    processing_info: dict = None
     thumbnail: str = None
     title: str = None
     width: int = 0
