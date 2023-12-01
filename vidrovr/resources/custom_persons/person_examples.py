@@ -39,7 +39,7 @@ class PersonExample:
         :rtype: PersonExampleData
         """
         if example_id is None:
-            url = f'customdata/persons/{person_id}/examples?project_uid{project_id}=&status=&page_size=&page='
+            url = f'customdata/persons/{person_id}/examples?project_uid={project_id}=&status=&page_size=&page='
         else:
             url = f'customdata/persons/{person_id}/examples/{example_id}?project_uid={project_id}'
 
