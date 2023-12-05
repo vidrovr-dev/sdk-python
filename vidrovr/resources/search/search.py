@@ -134,7 +134,7 @@ class Search:
         :type search_id: str
         """
         ic('delete')
-        url      = f'search/saved/{project_id}/{search_id}'
+        url = f'search/saved/{project_id}/{search_id}'
         response = Client.delete(url)
         
         return response
