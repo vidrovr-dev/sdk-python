@@ -1,6 +1,6 @@
 # ignore some files
 api_returns.py
-api_test.py
+sdk_test.py
 pydantic_test.py
 vidrovr/core/response.py
 
