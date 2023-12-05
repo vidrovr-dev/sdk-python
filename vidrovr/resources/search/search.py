@@ -3,7 +3,6 @@ import json
 from vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
-from icecream import ic
 
 class SearchFeedItems(BaseModel):
     type: str = None
@@ -133,7 +132,6 @@ class Search:
         :param search_id: ID of the saved search to delete
         :type search_id: str
         """
-        ic('delete')
         url = f'search/saved/{project_id}/{search_id}'
         response = Client.delete(url)
         
@@ -255,7 +253,6 @@ class Search:
             value = data_dict['search_id'] if 'search_id' in data_dict else None
 
             if value is not None:
-                ic(value)
                 if 'search_id' in data_dict:
                     del data_dict['search_id']
 
