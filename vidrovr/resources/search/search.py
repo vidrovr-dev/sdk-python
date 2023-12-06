@@ -5,6 +5,14 @@ from vidrovr.core import Client
 from pydantic import BaseModel, ValidationError, validator
 
 class SearchFeedItems(BaseModel):
+    """
+    Model of search feed items
+
+    :param type: Type to search
+    :type type: str
+    :param field: Field to search
+    :type field: str
+    """
     type: str = None
     field: str = None
 
@@ -23,9 +31,31 @@ class SearchFeedItems(BaseModel):
         return value
 
 class SearchFacet(BaseModel):
+    """
+    Model of search facet
+
+    :param feed_items: Search feed items model
+    :type feed_items: SearchFeedItems
+    """
     feed_items: SearchFeedItems
 
 class SearchQuery(BaseModel):
+    """
+    Model of a search query
+
+    :param project_id: ID of the project containing the search
+    :type project_id: str
+    :param query: The search query
+    :type query: str
+    :param sort: Sorting of the results
+    :type sort: str
+    :param limit: Number of results to return
+    :type limit: int
+    :param offset: Pagination
+    :type offset: int
+    :param facet: Search facet model
+    :type facet: SearchFacet
+    """
     project_id: str = None
     query: str = None
     sort: str = None
@@ -48,11 +78,29 @@ class SearchQuery(BaseModel):
         return value
 
 class SearchData(BaseModel):
+    """
+    Data items of the search
+
+    :param name: Name of the search
+    :type name: str
+    :param query: Search query
+    :type query: SearchQuery
+    :param collection: Search collection, defaults to appearances
+    :type collection: str
+    """
     name: str = None
     query: SearchQuery
     collection: str = 'appearances'
 
 class SavedSearch(BaseModel):
+    """
+    Model of a saved search
+
+    :param search_id: ID of the search
+    :type search_id: str
+    :param data: Additional components of the search (name and query)
+    :type data: SearchData
+    """
     search_id: str = None
     data: SearchData
 
