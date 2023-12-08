@@ -96,3 +96,25 @@ class CustomTagExample:
             return tag
         else:
             return response
+        
+    @classmethod
+    def search(cls, tag_id: str, project_id: str, query: str):
+        """
+        Triggers a web search for images based on the query
+
+        :param tag_id: ID of the tag
+        :type tag_id: str
+        :param project_id: ID of the project
+        :type project_id: str
+        :param query: Name of the tag to use in the search
+        :type query: str
+        """
+        url = f'customdata/tags/{tag_id}/examples?project_uid={project_id}'
+        payload = {
+            'data': {
+                'search_query': query
+            }
+        }
+        response = Client.post(url, payload)
+
+        return response

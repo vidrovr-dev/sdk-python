@@ -88,5 +88,50 @@ class PersonExample:
         return response
     
     @classmethod
-    def create(cls):
-        return NotImplementedError
+    def create(cls, person_id: str, file_path: str):
+        """
+        Create an example with an image for a specific person ID
+
+        :param person_id: ID of the person
+        :type person_id: str
+        :param file_path: Path to the file to upload
+        :type file_path: str
+        """
+        url = f'customdata/persons/{person_id}/examples'
+        payload = {}
+        files = [
+            ('file_data',('file',open(file_path,'rb'),'application/octet-stream'))
+        ]
+        response = Client.post(url, payload, files)
+
+        if response is not None:
+            example = PersonExampleModel(
+                id=response['id'],
+                name=response['name']
+            )
+
+            return example
+        else:
+            return response
+    
+    @classmethod 
+    def search(cls, person_id: str, project_id: str, query: str):
+        """
+        Triggers a web search for images based on the query
+
+        :param person_id: ID of the person
+        :type person_id: str
+        :param project_id: ID of the project
+        :type project_id: str
+        :param query: Name of the person to use in the search
+        :type query: str
+        """
+        url = f'customdata/persons/{person_id}/examples?project_uid={project_id}'
+        payload = {
+            'data': {
+                'search_query': query
+            }
+        }
+        response = Client.post(url, payload)
+
+        return response

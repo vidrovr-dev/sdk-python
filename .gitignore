@@ -7,6 +7,7 @@ vidrovr/core/response.py
 # ignore some directories
 dist/
 docs/build/
+images/
 vidrovr/__pycache__/
 vidrovr/core/__pycache__/
 vidrovr/resources/__pycache__/

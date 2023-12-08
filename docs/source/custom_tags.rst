@@ -28,3 +28,5 @@ along with the CustomTagExampleModel data object:
 .. autofunction:: vidrovr.resources.custom_tags.CustomTagExample.read
 
 .. autofunction:: vidrovr.resources.custom_tags.CustomTagExample.update
+
+.. autofunction:: vidrovr.resources.custom_tags.CustomTagExample.search

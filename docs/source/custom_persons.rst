@@ -30,3 +30,5 @@ along with the PersonExampleModel object:
 .. autofunction:: vidrovr.resources.custom_persons.PersonExample.read
 
 .. autofunction:: vidrovr.resources.custom_persons.PersonExample.update
+
+.. autofunction:: vidrovr.resources.custom_persons.PersonExample.search
