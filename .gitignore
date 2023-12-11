@@ -2,7 +2,7 @@
 api_returns.py
 sdk_test.py
 pydantic_test.py
-build_notes.txt
+build_notes.md
 vidrovr/core/response.py
 
 # ignore some directories
