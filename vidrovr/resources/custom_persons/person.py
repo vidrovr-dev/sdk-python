@@ -92,8 +92,8 @@ class Person:
         :type project_id: str
         :param name: Name of the person to be created
         :type name: str
-        :return: JSON string of the HTTP response containing the ID of the new person
-        :rtype: str
+        :return: Data object of a person
+        :rtype: PersonModel
         """
         url     = 'customdata/persons/'
         payload = {
@@ -104,4 +104,12 @@ class Person:
         }
         response = Client.post(url, payload)
 
-        return response
+        if response is not None:
+            person = PersonModel(
+                id=response['id'],
+                name=response['name']
+            )
+
+            return person
+        else:
+            return response
