@@ -1,5 +1,6 @@
 # ignore some files
 api_returns.py
+api_notification.py
 sdk_test.py
 pydantic_test.py
 build_notes.md
