@@ -2,8 +2,6 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
 
-from icecream import ic
-
 class FeedModel(BaseModel):
     """
     Model of a feed
