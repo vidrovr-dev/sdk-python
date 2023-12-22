@@ -89,11 +89,19 @@ class Feed:
         if response is not None:
             for item in response:
                 try:
-                    feed = FeedModel(
-                        id=item['id'],
-                        type=item['type'],
-                        name=item['name']
-                    )
+                    if 'name' in item.keys():
+                        feed = FeedModel(
+                            id=item['id'],
+                            type=item['type'],
+                            name=item['name']
+                        )
+                    else:
+                        feed = FeedModel(
+                            id=item['id'],
+                            type=item['type'],
+                            name='Default'
+                        )
+
                     feeds.append(feed)
                 except ValidationError as e:
                     print(f'Feed.read(): Validation error for {item}: {e}')
