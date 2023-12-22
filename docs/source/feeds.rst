@@ -21,7 +21,7 @@ the vidrovr.resources.feeds.Feed object along with the FeedModel data object:
 Creating and reading feed schedules
 -----------------------------------
 
-To create a new schedule, or retrieve scheudle details, for a feed, you can
+To create a new schedule, or retrieve schedule details, for a feed, you can
 use the vidrovr.resources.feeds.FeedSchedule object along with the FeedScheduleModel data object:
 
 .. autopydantic_model:: vidrovr.resources.feeds.FeedScheduleModel

@@ -43,7 +43,7 @@ Here's a small example for retrieving metadata of an asset in the platform.
 
 .. code-block:: python
 
-   from vidrovr.resources.metadata import FeedItem
+   from vidrovr.resources.metadata import AssetItem
 
    def main():
      asset_id  = 'id_of_asset'

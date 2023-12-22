@@ -1,7 +1,7 @@
 Settings
 ========
 
-Udating settings data
+Updating settings data
 ------------------------------------------------------
 
 To update language settings for a specific project, you can use the 
