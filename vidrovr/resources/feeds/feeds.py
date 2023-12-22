@@ -184,7 +184,7 @@ class Feed:
         """
         Creates a feed which Vidrovr will poll to ingest data into the system.
 
-        :param data: FeedModel object contiaining the info to create a feed
+        :param data: FeedModel object containing the info to create a feed
         :type data: FeedModel
         :return: A FeedModel on success
         :rtype: FeedModel
