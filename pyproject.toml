@@ -4,7 +4,6 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vidrovr"
-version = "0.0.4"
 
 authors = [
     {name="Vidrovr", email="support@vidrovr.com"},
@@ -20,6 +19,22 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+]
+
+dynamic = [
+    "dependencies",
+    "version"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
 ]
 
 [project.urls]
