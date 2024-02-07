@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class IABAppearancesModel(BaseModel):
     """
     Model of IAB tag appearances
@@ -13,12 +14,13 @@ class IABAppearancesModel(BaseModel):
     :param appearances: List of something
     :type appearances: list
     """
+
     asset_id: str = None
     name: str = None
     appearances: list = None
 
-class IABAppearances:
 
+class IABAppearances:
     @classmethod
     def read(cls, asset_id: str):
         """
@@ -29,8 +31,8 @@ class IABAppearances:
         :return: Array of information about the IAB tag appearances
         :rtype: list[IABAppearancesModel]
         """
-        url      = f'metadata/{asset_id}/appearances/iab_tags'
+        url = f"metadata/{asset_id}/appearances/iab_tags"
         response = Client.get(url)
-        iab      = [IABAppearancesModel(**item) for item in response]
+        iab = [IABAppearancesModel(**item) for item in response]
 
         return iab

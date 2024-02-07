@@ -2,11 +2,12 @@
 
 from abc import ABC, abstractmethod
 
+
 class Resource(ABC):
     @abstractmethod
     def uri(cls, id):
         raise NotImplementedError
-   
+
     @abstractmethod
     def get(cls, id):
         pass

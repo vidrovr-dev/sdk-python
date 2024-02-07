@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class TranscriptAppearancesModel(BaseModel):
     """
     Model of person appearances
@@ -17,14 +18,15 @@ class TranscriptAppearancesModel(BaseModel):
     :param end: Timestamp for the end of the transcript appearance
     :type end: str
     """
+
     id: str = None
     language: str = None
     text: str = None
     start: str = None
     end: str = None
 
-class TranscriptAppearances:
 
+class TranscriptAppearances:
     @classmethod
     def read(cls, asset_id: str):
         """
@@ -35,8 +37,8 @@ class TranscriptAppearances:
         :return: Array of information about the transcript chunks
         :rtype: list[TranscriptAppearanceModel]
         """
-        url        = f'metadata/{asset_id}/appearances/transcripts'
-        response   = Client.get(url)
+        url = f"metadata/{asset_id}/appearances/transcripts"
+        response = Client.get(url)
         transcript = [TranscriptAppearancesModel(**item) for item in response]
 
         return transcript

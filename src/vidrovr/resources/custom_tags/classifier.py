@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class ClassifierModel(BaseModel):
     """
     Model of a classifier.
@@ -15,17 +16,18 @@ class ClassifierModel(BaseModel):
     :param is_active: Indicates if the classifier is active or not
     :type is_active: bool
     """
+
     id: str = None
     name: str = None
     training_state: str = None
     is_active: bool = False
 
-class Classifier:
 
+class Classifier:
     @classmethod
-    def read(cls, project_id: str, classifier_id: str=None):
+    def read(cls, project_id: str, classifier_id: str = None):
         """
-        Returns an array of classifiers trained for a specific project or details for 
+        Returns an array of classifiers trained for a specific project or details for
         a single classifier.
 
         :param project_id: ID of the project containing the classifier
@@ -36,32 +38,32 @@ class Classifier:
         :rtype: list[ClassifierModel] or ClassifierModel
         """
         if classifier_id is None:
-            url = f'customdata/classifiers/?project_uid={project_id}'
+            url = f"customdata/classifiers/?project_uid={project_id}"
         else:
-            url = f'customdata/classifiers/{classifier_id}?project_uid={project_id}'
+            url = f"customdata/classifiers/{classifier_id}?project_uid={project_id}"
 
         response = Client.get(url)
 
         if response is not None:
             if isinstance(response, dict):
                 custom_tag = ClassifierModel(
-                    id=response['id'],
-                    name=response['name'],
-                    training_state=response['training_state'],
-                    is_active=response['is_active']
+                    id=response["id"],
+                    name=response["name"],
+                    training_state=response["training_state"],
+                    is_active=response["is_active"],
                 )
-            elif isinstance(response, list): 
+            elif isinstance(response, list):
                 custom_tag = [ClassifierModel(**item) for item in response]
 
             return custom_tag
         else:
             return response
-    
+
     @classmethod
     def create(cls, project_id: str):
         """
-        Create and train classifiers for the project. The model will be trained across 
-        all custom tags with is_active set to true at time of request. This will fail 
+        Create and train classifiers for the project. The model will be trained across
+        all custom tags with is_active set to true at time of request. This will fail
         if there are not enough labeled custom tags in a project.
 
         :param project_id: ID of the project containing the classifier
@@ -69,19 +71,13 @@ class Classifier:
         :return: Data object representing the new classifer
         :rtype: ClassifierModel
         """
-        url     = f'customdata/classifiers'
-        payload = {
-            'data': {
-                'project_uid': project_id
-            }
-        }
+        url = f"customdata/classifiers"
+        payload = {"data": {"project_uid": project_id}}
         response = Client.post(url, payload)
 
         if response is not None:
-            classifier = ClassifierModel(
-                id=response['id']
-            )
+            classifier = ClassifierModel(id=response["id"])
 
             return classifier
         else:
-            return response 
+            return response

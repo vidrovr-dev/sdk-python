@@ -2,6 +2,7 @@ from base_test import BaseTest
 
 from vidrovr.resources.projects import *
 
+
 class TestProjects(BaseTest):
     def test_project_create(self):
         result = Project.create(self.user_id, self.project_name)

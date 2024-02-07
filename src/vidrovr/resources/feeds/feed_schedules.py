@@ -4,6 +4,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class FeedScheduleModel(BaseModel):
     """
     Model of feed schedule
@@ -17,15 +18,16 @@ class FeedScheduleModel(BaseModel):
     :param end_time: End time for polling
     :type end_time: str
     """
+
     id: str = None
     day_of_week: str = None
     start_time: str = None
     end_time: str = None
 
-class FeedSchedule:
 
+class FeedSchedule:
     @classmethod
-    def read(cls, project_id: str, feed_id: str, feed_schedule_id: str=None):
+    def read(cls, project_id: str, feed_id: str, feed_schedule_id: str = None):
         """
         Returns data for all schedules in a given project or details on specific schedule.
 
@@ -39,30 +41,30 @@ class FeedSchedule:
         :rtype: list[FeedScheduleData] or FeedScheduleData
         """
         if feed_schedule_id is None:
-            url = f'feeds/{feed_id}/schedules/?project_uid={project_id}'
+            url = f"feeds/{feed_id}/schedules/?project_uid={project_id}"
         else:
-            url = f'feeds/{feed_id}/schedules/{feed_schedule_id}/?project_uid={project_id}'
+            url = f"feeds/{feed_id}/schedules/{feed_schedule_id}/?project_uid={project_id}"
 
         response = Client.get(url)
 
         if response is not None:
             feed_schedule = FeedScheduleModel(
-                id=response['id'],
-                day_of_week=response['creation_date'],
-                start_time=response['is_active'],
-                end_time=response['name']
+                id=response["id"],
+                day_of_week=response["creation_date"],
+                start_time=response["is_active"],
+                end_time=response["name"],
             )
 
             return feed_schedule
         else:
             return response
-    
+
     @classmethod
     def create(cls, feed_id: str, project_id: str, data: FeedScheduleModel):
         """
-        Create a schedule for a feed. For HLS Feeds, a specified schedule is needed. 
-        You can provide as many as you need. If you'd like to poll the feed always, 
-        you'd need to create 7 schedules, one for each day, with start and end times 
+        Create a schedule for a feed. For HLS Feeds, a specified schedule is needed.
+        You can provide as many as you need. If you'd like to poll the feed always,
+        you'd need to create 7 schedules, one for each day, with start and end times
         to cover the whole day.
 
         :param feed_id: ID of the feed for the schedule
@@ -74,13 +76,13 @@ class FeedSchedule:
         :return: JSON string containing the HTTP response
         :rtype: str
         """
-        url     = f'feeds/{feed_id}/schedules'
+        url = f"feeds/{feed_id}/schedules"
         payload = {
-            'data': {
-                'start_time': data.start_time,
-                'end_time': data.end_time,
-                'day_of_week': data.day_of_week,
-                'project_uid': project_id
+            "data": {
+                "start_time": data.start_time,
+                "end_time": data.end_time,
+                "day_of_week": data.day_of_week,
+                "project_uid": project_id,
             }
         }
         response = Client.post(url, data=payload)

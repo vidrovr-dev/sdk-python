@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
 
+
 class FeedModel(BaseModel):
     """
     Model of a feed
@@ -27,6 +28,7 @@ class FeedModel(BaseModel):
     :param project_uids: Project ID that this feed will be associated with
     :type project_uids: str
     """
+
     id: str = None
     type: str = None
     additional_metadata: str = None
@@ -38,7 +40,7 @@ class FeedModel(BaseModel):
     query_parameters: str = None
     status: str = None
     updated_date: str = None
-    name: str = 'Default'
+    name: str = "Default"
     profile: str = None
     hashtag: str = None
     polling_freq: int = 3600
@@ -50,17 +52,17 @@ class FeedModel(BaseModel):
     @validator("name", pre=True)
     def check_name(cls, value):
         if value is None:
-            value = 'Default'
+            value = "Default"
 
         return value
-    
+
     @validator("polling_freq", pre=True)
     def check_polling_freq(cls, value):
         if value is None:
             value = 3600
 
         return value
-    
+
     @validator("segment_length", pre=True)
     def check_segment_length(cls, value):
         if value is None:
@@ -68,8 +70,8 @@ class FeedModel(BaseModel):
 
         return value
 
-class Feed:
 
+class Feed:
     @classmethod
     def read(cls, project_id: str):
         """
@@ -80,34 +82,30 @@ class Feed:
         :return: A list of all feeds in the project
         :rtype: list[FeedModel]
         """
-        url      = f'feeds/?project_uid={project_id}'
+        url = f"feeds/?project_uid={project_id}"
         response = Client.get(url)
-        feeds    = []
+        feeds = []
 
         if response is not None:
             for item in response:
                 try:
-                    if 'name' in item.keys():
+                    if "name" in item.keys():
                         feed = FeedModel(
-                            id=item['id'],
-                            type=item['type'],
-                            name=item['name']
+                            id=item["id"], type=item["type"], name=item["name"]
                         )
                     else:
                         feed = FeedModel(
-                            id=item['id'],
-                            type=item['type'],
-                            name='Default'
+                            id=item["id"], type=item["type"], name="Default"
                         )
 
                     feeds.append(feed)
                 except ValidationError as e:
-                    print(f'Feed.read(): Validation error for {item}: {e}')
+                    print(f"Feed.read(): Validation error for {item}: {e}")
 
             return feeds
         else:
             return response
-    
+
     @classmethod
     def delete(cls, feed_id: str, project_id: str):
         """
@@ -120,24 +118,21 @@ class Feed:
         :return: A FeedModel on success
         :rtype: FeedModel
         """
-        url      = f'feeds/{feed_id}?project_uid={project_id}'
+        url = f"feeds/{feed_id}?project_uid={project_id}"
         response = Client.delete(url)
 
         if response is not None:
-            feed = FeedModel(
-                id=response['id'],
-                type=response['type']
-            )
+            feed = FeedModel(id=response["id"], type=response["type"])
 
             return feed
-        else:        
+        else:
             return response
-    
+
     @classmethod
     def update(cls, feed_id: str, project_id: str, status: bool):
         """
-        Change the is_active property of a Feed. If set to false, Vidrovr will not 
-        ingest data from that Feed. When set to true, Vidrovr will start polling media 
+        Change the is_active property of a Feed. If set to false, Vidrovr will not
+        ingest data from that Feed. When set to true, Vidrovr will start polling media
         as scheduled in the Feed.
 
         :param feed_id: ID of the feed to update
@@ -149,36 +144,31 @@ class Feed:
         :return: A FeedModel on success
         :rtype: FeedModel
         """
-        url = f'feeds/{feed_id}'
-        payload = {
-            'data': {
-                'is_active': status,
-                'project_uid': project_id
-            }
-        }
+        url = f"feeds/{feed_id}"
+        payload = {"data": {"is_active": status, "project_uid": project_id}}
         response = Client.patch(url, payload)
 
         if response is not None:
             feed = FeedModel(
-                additional_metadata=response['additional_metadata'],
-                creation_date=response['creation_date'],
-                id=response['id'],
-                is_active=response['is_active'],
-                name=response['name'],
-                next_poll_date=response['next_poll_date'],
-                num_feed_items=response['num_feed_items'],
-                polling_freq=response['polling_frequency'],
-                priority=response['priority'],
-                query_parameters=response['query_parameters'],
-                status=response['status'],
-                type=response['type'],
-                updated_date=response['updated_date']
+                additional_metadata=response["additional_metadata"],
+                creation_date=response["creation_date"],
+                id=response["id"],
+                is_active=response["is_active"],
+                name=response["name"],
+                next_poll_date=response["next_poll_date"],
+                num_feed_items=response["num_feed_items"],
+                polling_freq=response["polling_frequency"],
+                priority=response["priority"],
+                query_parameters=response["query_parameters"],
+                status=response["status"],
+                type=response["type"],
+                updated_date=response["updated_date"],
             )
 
             return feed
         else:
             return response
-    
+
     @classmethod
     def create(cls, data: FeedModel):
         """
@@ -189,50 +179,47 @@ class Feed:
         :return: A FeedModel on success
         :rtype: FeedModel
         """
-        url     = 'feeds/'
+        url = "feeds/"
         payload = {
-            'data': {
-                'name': data.name,
-                'polling_frequency': data.polling_freq,
-                'project_uids': data.project_uids,
-                'feed_type': data.type
+            "data": {
+                "name": data.name,
+                "polling_frequency": data.polling_freq,
+                "project_uids": data.project_uids,
+                "feed_type": data.type,
             }
         }
 
         # put the url in the right slot
-        if data.type == 'youtube':
-            if 'youtube_url' not in payload['data']:
-                payload['data']['youtube_url'] = data.link
-        elif data.type == 'hls':
-            if 'hls_link' not in payload['data']:
-                payload['data']['hls_link'] = data.link
-        elif data.type == 'rtmp':
-            if 'rtmp_link' not in payload['data']:
-                payload['data']['rtmp_link'] = data.link
-        elif data.type == 'rtsp':
-            if 'rtsp_link' not in payload['data']:
-                payload['data']['rtsp_link'] = data.link
+        if data.type == "youtube":
+            if "youtube_url" not in payload["data"]:
+                payload["data"]["youtube_url"] = data.link
+        elif data.type == "hls":
+            if "hls_link" not in payload["data"]:
+                payload["data"]["hls_link"] = data.link
+        elif data.type == "rtmp":
+            if "rtmp_link" not in payload["data"]:
+                payload["data"]["rtmp_link"] = data.link
+        elif data.type == "rtsp":
+            if "rtsp_link" not in payload["data"]:
+                payload["data"]["rtsp_link"] = data.link
 
         # check for optional items
         if data.profile is not None:
-            if 'profile' not in payload['data']:
-                payload['data']['profile'] = data.profile
+            if "profile" not in payload["data"]:
+                payload["data"]["profile"] = data.profile
 
         if data.hashtag is not None:
-            if 'hashtag' not in payload['data']:
-                payload['data']['hashtag'] = data.hashtag
+            if "hashtag" not in payload["data"]:
+                payload["data"]["hashtag"] = data.hashtag
 
         if data.media_type is not None:
-            if 'media_type' not in payload['data']:
-                payload['data']['media_type'] = data.media_type
+            if "media_type" not in payload["data"]:
+                payload["data"]["media_type"] = data.media_type
 
         response = Client.post(url, payload)
 
         if response is not None:
-            feed = FeedModel(
-                id=response['id'],
-                name=response['name']
-            )
+            feed = FeedModel(id=response["id"], name=response["name"])
 
             return feed
         else:

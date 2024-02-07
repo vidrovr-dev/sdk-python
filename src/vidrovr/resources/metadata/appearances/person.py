@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class PersonAppearancesModel(BaseModel):
     """
     Model of person appearances
@@ -13,12 +14,13 @@ class PersonAppearancesModel(BaseModel):
     :param appearances: List of something
     :type appearances: list
     """
+
     asset_id: str = None
     name: str = None
     appearances: list = None
 
-class PersonAppearances:
 
+class PersonAppearances:
     @classmethod
     def read(cls, asset_id: str):
         """
@@ -29,8 +31,8 @@ class PersonAppearances:
         :return: Array of information about the person appearances in the asset
         :rtype: list[PersonAppearancesModel]
         """
-        url      = f'metadata/{asset_id}/appearances/persons'
+        url = f"metadata/{asset_id}/appearances/persons"
         response = Client.get(url)
-        person   = [PersonAppearancesModel(**item) for item in response]
+        person = [PersonAppearancesModel(**item) for item in response]
 
         return person

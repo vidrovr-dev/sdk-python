@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class IABTagModel(BaseModel):
     """
     Model of an IAB tag
@@ -15,18 +16,19 @@ class IABTagModel(BaseModel):
     :param score: Confidence score of the detection
     :type score: float
     """
+
     id: str = None
     name: str = None
     time: str = None
     score: float = 0.0
 
-class IABTag:
 
+class IABTag:
     @classmethod
-    def read(cls, asset_id: str, tag_id: str=None):
+    def read(cls, asset_id: str, tag_id: str = None):
         """
         Returns an array of IAB tag detections or information about a specific IAB tag detection.
-        
+
         :param asset_id: ID of the asset
         :type asset_id: str
         :param tag_id: ID of the tag or None
@@ -35,19 +37,19 @@ class IABTag:
         :rtype: list[IABTagModel] or IABTagModel
         """
         if tag_id is None:
-            url      = f'metadata/{asset_id}/iab_tags'
+            url = f"metadata/{asset_id}/iab_tags"
             response = Client.get(url)
         else:
-            url      = f'metadata/{asset_id}/iab_tags/{tag_id}'
+            url = f"metadata/{asset_id}/iab_tags/{tag_id}"
             response = Client.get(url)
 
         if response is not None:
             if isinstance(response, dict):
                 iab_tag = IABTagModel(
-                    asset_id=response['id'],
-                    name=response['name'],
-                    time=response['time'],
-                    score=response['score']
+                    asset_id=response["id"],
+                    name=response["name"],
+                    time=response["time"],
+                    score=response["score"],
                 )
             elif isinstance(response, list):
                 iab_tag = [IABTagModel(**item) for item in response]
