@@ -1,0 +1,15 @@
+name: release-to-pypi
+on:
+  release:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        id: checkout_repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.sha }}
