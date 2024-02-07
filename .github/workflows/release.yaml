@@ -1,11 +1,12 @@
 name: release-to-pypi
 on:
   release:
-    branches: [ "main" ]
+    types: ["published"]
 
 jobs:
-  build:
-    name: build
+  release:
+    name: release
+    environment: PyPi Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo

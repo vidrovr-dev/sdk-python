@@ -170,17 +170,4 @@ src/vidrovr/core/response.py
 # ignore some directories
 docs/build/
 images/
-#src/vidrovr/__pycache__/
-#src/vidrovr/core/__pycache__/
-#src/vidrovr/resources/__pycache__/
-#src/vidrovr/resources/custom_persons/__pycache__/
-#src/vidrovr/resources/custom_tags/__pycache__/
-#src/vidrovr/resources/feeds/__pycache__/
-#src/vidrovr/resources/metadata/__pycache__/
-#src/vidrovr/resources/metadata/appearances/__pycache__/
-#src/vidrovr/resources/organizations/__pycache__/
-#src/vidrovr/resources/projects/__pycache__/
-#src/vidrovr/resources/search/__pycache__/
-#src/vidrovr/resources/settings/__pycache__/
-#src/vidrovr/resources/upload/__pycache__/
-#src/vidrovr/resources/users/__pycache__/
+
