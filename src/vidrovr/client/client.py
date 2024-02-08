@@ -5,38 +5,26 @@
 # By: Gianni Galbiati
 
 # Standard libraries
-import logging
-import os
-import uuid
-
 from functools import wraps
 
 # External libraries
 import orjson as json
-import requests
 
 # Internal libraries
 from vidrovr.client.config import Config
 
 
 cfg = Config.from_env()
-
-HEADERS = {
-    "x-api-key": cfg.key,
-    "Accept": "application/json"
-}
+session = cfg.get_session()
 
 
 def requestor(f):
     """Transform a requests method with default headers and response unpacking."""
     @wraps(f)
     def wrapped(*args, **kwargs):
-        # If any headers are passed, merge them with the defaults
-        kwargs['headers'] = HEADERS | kwargs.pop("headers", {})
-
         # Execute the request
         response = f(*args, **kwargs)
-        
+
         # Raise if not 200
         response.raise_for_status()
 
@@ -45,7 +33,7 @@ def requestor(f):
     return wrapped
 
 
-post = requestor(requests.post)
-get = requestor(requests.get)
-patch = requestor(requests.patch)
-delete = requestor(requests.delete)
+post = requestor(session.post)
+get = requestor(session.get)
+patch = requestor(session.patch)
+delete = requestor(session.delete)
