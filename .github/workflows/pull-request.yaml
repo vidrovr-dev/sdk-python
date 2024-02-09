@@ -1,0 +1,37 @@
+name: pull-request-lint-and-test
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        id: checkout_repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Lint using black formatter
+        uses: rickstaa/action-black@v1
+        id: action_black
+        with:
+          black_args: "./src/vidrovr"
+
+      - name: Create Pull Request if Lint detects issues
+        if: steps.action_black.outputs.is_formatted == 'true'
+        uses: peter-evans/create-pull-request@v3
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            title: ":zap: Linting ${{ github.head_ref || github.ref_name}}"
+            commit-message: ":art: Linting ${{ github.head_ref || github.ref_name}}"
+            body: |
+                Fixing linting errors in ${{ github.sha }} by ${{ github.actor }}.
+            base: ${{ github.head_ref || github.ref_name }} # Creates pull request onto pull request or commit branch
+            branch: actions/black
+
+      - name: Exit
+        if: steps.action_black.outputs.is_formatted == 'true'
+        run: exit 1
