@@ -9,7 +9,7 @@ import logging
 import os
 import uuid
 
-from typing import ClassVar
+from typing import ClassVar, Self
 
 # External libraries
 import orjson as json
@@ -26,14 +26,38 @@ class Resource(BaseModel):
     type: str
 
     @classmethod
-    def _url(cls) -> AnyHttpUrl:
-        return f"{client.cfg.url}/{cls.route}"
+    def _url(cls, id: UUID4 = None) -> AnyHttpUrl:
+        url = f"{client.cfg.url}/{cls.route}"
+        if id is not None:
+            return url
+        return f"{url}/{str(id)}"
 
     def url(self) -> AnyHttpUrl:
         return f"{self._url()}/{str(self.id)}"
 
-    def create(self):
+    def create(self, refresh=True):
         body = self.model_dump()
-        response = client.post(self.url(), data=body)
-        response.raise_for_status()
-        return json.loads(response.content).get("data") if response.content else None
+        _ = client.post(self._url(), data=body)
+        if refresh:
+            self.refresh()
+        return None
+
+    @classmethod
+    def list(cls, params: dict = None) -> list[Self]:
+        response = client.get(cls._url(), params=params)
+        return [cls(**r) for r in response]
+
+    @classmethod
+    def read(cls, id):
+        return cls(**client.get(cls._url(id=id)))
+
+    def refresh(self):
+        # TODO: this should replace all attributes
+        #       with updated values from API
+        return self.read(self.id)
+
+    def update(self):
+        raise NotImplementedError
+
+    def delete(self):
+        raise NotImplementedError
