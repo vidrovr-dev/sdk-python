@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class CustomTagsAppearancesModel(BaseModel):
     """
     Model of custom tag appearances
@@ -13,12 +14,13 @@ class CustomTagsAppearancesModel(BaseModel):
     :param appearances: List of something
     :type appearances: list
     """
+
     id: str = None
     name: str = None
     appearances: list = None
 
-class CustomTagsAppearances:
 
+class CustomTagsAppearances:
     @classmethod
     def read(cls, asset_id: str):
         """
@@ -29,8 +31,8 @@ class CustomTagsAppearances:
         :return: Array of information about the custom tag appearances
         :rtype: list[CustomTagsAppearancesModel]
         """
-        url        = f'metadata/{asset_id}/appearances/custom_tags'
-        response   = Client.get(url)
+        url = f"metadata/{asset_id}/appearances/custom_tags"
+        response = Client.get(url)
 
         if response is not None:
             custom_tag = [CustomTagsAppearancesModel(**item) for item in response]

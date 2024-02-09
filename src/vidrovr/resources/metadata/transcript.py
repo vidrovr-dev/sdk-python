@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class TranscriptModel(BaseModel):
     """
     Model of transcript detection
@@ -23,6 +24,7 @@ class TranscriptModel(BaseModel):
     :param language_slug: ISO language code of the transcript language
     :type language_slu: str
     """
+
     id: str = None
     text: str = None
     start_time: str = None
@@ -32,13 +34,13 @@ class TranscriptModel(BaseModel):
     language_name: str = None
     language_slug: str = None
 
-class Transcript:
 
+class Transcript:
     @classmethod
     def read(cls, asset_id: str, transcript_id: str):
         """
         Returns detail information for a specific transcript chunk.
-        
+
         :param asset_id: ID of the asset
         :type asset_id: str
         :param transcript_id: ID of the transcript
@@ -46,19 +48,19 @@ class Transcript:
         :return: Data object containing transcript information
         :rtype: TranscriptData
         """
-        url      = f'metadata/{asset_id}/transcripts/{transcript_id}'
+        url = f"metadata/{asset_id}/transcripts/{transcript_id}"
         response = Client.get(url)
 
         if response is not None:
             transcript = TranscriptModel(
-                id=response['id'],
-                text=response['text'],
-                start_time=response['start_time'],
-                end_time=response['end_time'],
-                duration=response['duration'],
-                language_id=response['language_id'],
-                language_name=response['language_name'],
-                language_slug=response['language_slug']
+                id=response["id"],
+                text=response["text"],
+                start_time=response["start_time"],
+                end_time=response["end_time"],
+                duration=response["duration"],
+                language_id=response["language_id"],
+                language_name=response["language_name"],
+                language_slug=response["language_slug"],
             )
 
             return transcript

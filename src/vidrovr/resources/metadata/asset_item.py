@@ -2,6 +2,7 @@ from vidrovr.core.client import Client
 
 from pydantic import BaseModel
 
+
 class AssetItemModel(BaseModel):
     """
     Model of an asset item
@@ -31,6 +32,7 @@ class AssetItemModel(BaseModel):
     :param width: Width of the asset in pixels
     :type width: int
     """
+
     creation_date: str = None
     duration: float = 0.0
     feed_id: str = None
@@ -44,35 +46,35 @@ class AssetItemModel(BaseModel):
     title: str = None
     width: int = 0
 
-class AssetItem:
 
+class AssetItem:
     @classmethod
     def read(cls, asset_id: str):
         """
         Retrieve general details about a specific asset.
-        
+
         :param asset_id: ID of the asset
         :type asset_id: str
         :return: Information about the asset
         :rtype: AssetItemModel
         """
-        url       = f'metadata/{asset_id}'
-        response  = Client.get(url)
+        url = f"metadata/{asset_id}"
+        response = Client.get(url)
 
         if response is not None:
             asset = AssetItemModel(
-                creation_date=response['creation_date'],
-                duration=response['duration'],
-                feed_id=response['feed_id'],
-                fps=response['fps'],
-                height=response['height'],
-                asset_id=response['id'],
-                media_url=response['media_url'],
-                mime_type=response['mime_type'],
-                processing_info=response['processing_info'],
-                thumbnail=response['thumbnail'],
-                title=response['title'],
-                width=response['width']
+                creation_date=response["creation_date"],
+                duration=response["duration"],
+                feed_id=response["feed_id"],
+                fps=response["fps"],
+                height=response["height"],
+                asset_id=response["id"],
+                media_url=response["media_url"],
+                mime_type=response["mime_type"],
+                processing_info=response["processing_info"],
+                thumbnail=response["thumbnail"],
+                title=response["title"],
+                width=response["width"],
             )
 
             return asset

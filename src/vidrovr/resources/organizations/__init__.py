@@ -1,2 +1,5 @@
 from vidrovr.resources.organizations.organization import Organization, OrganizationModel
-from vidrovr.resources.organizations.organization_users import OrganizationUser, OrganizationUserModel
+from vidrovr.resources.organizations.organization_users import (
+    OrganizationUser,
+    OrganizationUserModel,
+)

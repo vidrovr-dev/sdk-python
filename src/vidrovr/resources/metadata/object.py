@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class ObjectModel(BaseModel):
     """
     Model of an object
@@ -29,6 +30,7 @@ class ObjectModel(BaseModel):
     :param frame_width: Width of the asset in pixels
     :type frame_width: int
     """
+
     id: str = None
     label_id: str = None
     label_name: str = None
@@ -41,10 +43,10 @@ class ObjectModel(BaseModel):
     frame_height: int = 0
     frame_width: int = 0
 
-class Object:
 
+class Object:
     @classmethod
-    def read(cls, asset_id: str, obj_detection_id: str=None):
+    def read(cls, asset_id: str, obj_detection_id: str = None):
         """
         Returns an array of object detections or information about a specific object detection.
 
@@ -56,26 +58,26 @@ class Object:
         :rtype: list[ObjectModel] or ObjectModel
         """
         if obj_detection_id is None:
-            url      = f'metadata/{asset_id}/object_detections'
+            url = f"metadata/{asset_id}/object_detections"
             response = Client.get(url)
         else:
-            url      = f'metadata/{asset_id}/object_detections/{obj_detection_id}'
+            url = f"metadata/{asset_id}/object_detections/{obj_detection_id}"
             response = Client.get(url)
 
         if response is not None:
             if isinstance(response, dict):
                 obj = ObjectModel(
-                    id=response['id'],
-                    label_id=response['label_id'],
-                    label_name=response['label_name'],
-                    time=response['time'],
-                    score=response['score'],
-                    x=response['x'],
-                    y=response['y'],
-                    w=response['w'],
-                    h=response['h'],
-                    frame_height=response['frame_height'],
-                    frame_width=response['frame_width']
+                    id=response["id"],
+                    label_id=response["label_id"],
+                    label_name=response["label_name"],
+                    time=response["time"],
+                    score=response["score"],
+                    x=response["x"],
+                    y=response["y"],
+                    w=response["w"],
+                    h=response["h"],
+                    frame_height=response["frame_height"],
+                    frame_width=response["frame_width"],
                 )
             elif isinstance(response, list):
                 obj = [ObjectModel(**item) for item in response]

@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class KeyphraseModel(BaseModel):
     """
     Model of a keyphrase
@@ -13,12 +14,13 @@ class KeyphraseModel(BaseModel):
     :param confidence: Confidence score of the detection
     :type confidence: float
     """
+
     id: str = None
     keyphrase: str = None
     confidence: float = 0.0
 
-class Keyphrase:
 
+class Keyphrase:
     @classmethod
     def read(cls, asset_id: str):
         """
@@ -29,17 +31,17 @@ class Keyphrase:
         :return: Array of keyphrase detections
         :rtype: list[KeyphraseModel]
         """
-        url       = f'metadata/{asset_id}/keyphrases'
-        response  = Client.get(url)
+        url = f"metadata/{asset_id}/keyphrases"
+        response = Client.get(url)
 
         if response is not None:
             keyphrase = [KeyphraseModel(**item) for item in response]
 
-            #keyphrase = KeyphraseData(
+            # keyphrase = KeyphraseData(
             #    asset_id=response['id'],
             #    keyprhase=response['keyphrase'],
             #    confidence=response['confidence'],
-            #)
+            # )
 
             return keyphrase
         else:

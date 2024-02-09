@@ -2,6 +2,7 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel
 
+
 class PersonModel(BaseModel):
     """
     Model of person detections
@@ -25,8 +26,9 @@ class PersonModel(BaseModel):
     :param h: Height of the detection
     :type h: float
     """
+
     id: str = None
-    person_id: str = None   
+    person_id: str = None
     person_name: str = None
     time: str = None
     score: float = 0.0
@@ -35,10 +37,10 @@ class PersonModel(BaseModel):
     w: float = 0.0
     h: float = 0.0
 
-class Person:
 
+class Person:
     @classmethod
-    def read(cls, asset_id: str, face_id: str=None):
+    def read(cls, asset_id: str, face_id: str = None):
         """
         Returns an array of person detections or information about a specific detection
 
@@ -50,24 +52,24 @@ class Person:
         :rtype: list[PersonModel] or PersonModel
         """
         if face_id is None:
-            url      = f'metadata/{asset_id}/faces'
+            url = f"metadata/{asset_id}/faces"
             response = Client.get(url)
         else:
-            url      = f'metadata/{asset_id}/faces/{face_id}'
+            url = f"metadata/{asset_id}/faces/{face_id}"
             response = Client.get(url)
 
         if response is not None:
             if isinstance(response, dict):
                 person = PersonModel(
-                    id=response['id'],
-                    person_id=response['person_id'],
-                    person_name=response['person_name'],
-                    time=response['time'],
-                    score=response['score'],
-                    x=response['x'],
-                    y=response['y'],
-                    w=response['w'],
-                    h=response['h']
+                    id=response["id"],
+                    person_id=response["person_id"],
+                    person_name=response["person_name"],
+                    time=response["time"],
+                    score=response["score"],
+                    x=response["x"],
+                    y=response["y"],
+                    w=response["w"],
+                    h=response["h"],
                 )
             elif isinstance(response, list):
                 person = [PersonModel(**item) for item in response]
