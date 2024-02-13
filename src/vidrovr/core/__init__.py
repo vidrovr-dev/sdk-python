@@ -1,1 +1,1 @@
-from .client import Client
+from src.vidrovr.core.client import Client
