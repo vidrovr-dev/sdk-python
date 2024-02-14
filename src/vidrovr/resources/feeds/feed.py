@@ -5,15 +5,37 @@
 # By: Gianni Galbiati
 
 # Standard libraries
+import enum
+
 from datetime import datetime
 from uuid import UUID
 
 # External libraries
-from pydantic import field_validator, Field
+from pydantic import field_validator, model_validator, Field
 from pydantic import AnyHttpUrl
 
 # Internal libraries
 from vidrovr.resources._base import BaseResource
+
+
+class FeedTypes(enum.Enum):
+    """Accepted feed type options."""
+    youtube = "youtube"
+    twitter_profile = "twitter_profile"
+    twitter_hashtag = "twitter_hashtag"
+    instagram_profile = "instagram_profile"
+    instagram_hashtag = "instagram_hashtag"
+    facebook_profile = "facebook_profile"
+
+    hls = "hls"
+    rtmp = "rtmp"
+    rtsp = "rtsp"
+
+    user_upload = "user_upload"
+
+    @classmethod
+    def streaming_types(cls):
+        return [FeedTypes.hls, FeedTypes.rtsp, FeedTypes.rtmp]
 
 
 class Feed(BaseResource):
@@ -21,25 +43,37 @@ class Feed(BaseResource):
 
     # Basics
     name: str
+    feed_type: FeedTypes
     project_uids: list[UUID]
     is_active: bool = True
     status: str = None
 
-    creation_date: datetime | None
-    updated_date: datetime | None
+    creation_date: datetime | None = None
+    updated_date: datetime | None = None
 
     # Processing settings
     priority: int = 0
-    segment_length: int | None
-
-    # Polling and continuous feed params
-    link: AnyHttpUrl | None
-    query_parameters: str | None
-    profile: str | None
-    hashtag: str | None
-
-    polling_freq: int | None
-    next_poll_date: datetime | None
 
     # Extra stuff to know about the feed
-    additional_metadata: dict | None
+    additional_metadata: dict | None = None
+
+    # Polling feed params
+    query_parameters: str | None = None
+    profile: str | None = None
+    hashtag: str | None = None
+    polling_freq: int | None = None
+    next_poll_date: datetime | None = None
+
+    # Streaming feed params
+    link: AnyHttpUrl | None = None
+    segment_length: int | None = None
+
+    @model_validator(mode="after")
+    def streaming_feed_has_link(self):
+        # TODO: does this break on GET?
+        ft = self.feed_type
+        if ft in FeedTypes.streaming_types():
+            if self.link is None:
+                raise ValueError(f"Link is required for feed type {ft}")
+
+        return self
