@@ -1,4 +1,4 @@
-from vidrovr.core.client import Client
+from src.vidrovr.core.client import Client
 
 from pydantic import BaseModel
 

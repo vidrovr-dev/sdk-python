@@ -1,6 +1,6 @@
 import json
 
-from vidrovr.core import Client
+from src.vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
 

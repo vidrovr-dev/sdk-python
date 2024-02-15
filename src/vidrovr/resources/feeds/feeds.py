@@ -1,10 +1,7 @@
-from vidrovr.core import Client
+from src.vidrovr.core import Client
 
-from pydantic import BaseModel, ValidationError, validator
-
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError 
 from typing import Dict, Union
-
 
 class FeedModel(BaseModel):
     """
@@ -40,7 +37,7 @@ class FeedModel(BaseModel):
     next_poll_date: str = None
     num_feed_items: int = 0
     priority: int = 0
-    query_parameters: str = None
+    query_parameters: Dict[str, Union[str, int]] = None
     status: str = None
     updated_date: str = None
     name: str = "Default"
@@ -53,7 +50,7 @@ class FeedModel(BaseModel):
     project_uids: list[str] = None
 
     def __init__(self, **data):
-        default_dict = {"default_key": "default_value"}
+        default_dict = {'default_key': 'default_value'}
 
         data.setdefault("additional_metadata", "Default")
         data.setdefault("creation_date", "Default")
@@ -75,10 +72,9 @@ class FeedModel(BaseModel):
 
         super().__init__(**data)
 
-
 class Feed:
     @classmethod
-    def read(cls, project_id: str):
+    def read(cls, feed_id: str, project_id: str):
         """
         Returns a list of all feeds created by the user, including the name and the unique identifier of the feed.
 
@@ -87,11 +83,15 @@ class Feed:
         :return: A list of all feeds in the project
         :rtype: list[FeedModel]
         """
-        url = f"feeds/?project_uid={project_id}"
+        if feed_id is None:
+            url = f"feeds/?project_uid={project_id}"
+        else:
+            url = f"feeds/{feed_id}?project_uid={project_id}"
+
         response = Client.get(url)
-        feeds = []
 
         if response is not None:
+            
             if isinstance(response, dict):
                 feed = FeedModel(
                     id=response["id"],

@@ -2,8 +2,6 @@ import json
 import os
 import requests
 
-from icecream import ic
-
 # check env vars
 API_URL = ""
 API_KEY = ""

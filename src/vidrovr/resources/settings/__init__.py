@@ -1,4 +1,4 @@
-from vidrovr.resources.settings.languages import (
-    Language,
+from src.vidrovr.resources.settings.languages import (
+    Language, 
     LanguageModel,
 )

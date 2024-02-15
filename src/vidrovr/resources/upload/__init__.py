@@ -1,1 +1,1 @@
-from vidrovr.resources.upload.upload import Upload
+from src.vidrovr.resources.upload.upload import Upload
