@@ -20,6 +20,7 @@ session = cfg.get_session()
 
 def requestor(f):
     """Transform a requests method with default headers and response unpacking."""
+
     @wraps(f)
     def wrapped(*args, **kwargs):
         # Execute the request
@@ -30,6 +31,7 @@ def requestor(f):
 
         # Unpack data if any
         return json.loads(response.content).get("data") if response.content else None
+
     return wrapped
 
 

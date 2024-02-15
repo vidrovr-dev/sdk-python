@@ -2,6 +2,9 @@ from vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
 
+from pydantic import BaseModel, ValidationError
+from typing import Dict, Union
+
 
 class FeedModel(BaseModel):
     """
@@ -49,26 +52,28 @@ class FeedModel(BaseModel):
     segment_length: int = 3
     project_uids: list[str] = None
 
-    @validator("name", pre=True)
-    def check_name(cls, value):
-        if value is None:
-            value = "Default"
+    def __init__(self, **data):
+        default_dict = {"default_key": "default_value"}
 
-        return value
+        data.setdefault("additional_metadata", "Default")
+        data.setdefault("creation_date", "Default")
+        data.setdefault("is_active", True)
+        data.setdefault("next_poll_date", "Default")
+        data.setdefault("num_feed_items", 0)
+        data.setdefault("priority", 0)
+        data.setdefault("query_parameters", default_dict)
+        data.setdefault("status", "Default")
+        data.setdefault("updated_date", "Default")
+        data.setdefault("name", "Default")
+        data.setdefault("profile", "Default")
+        data.setdefault("hashtag", "Default")
+        data.setdefault("polling_freq", 3600)
+        data.setdefault("media_type", "Default")
+        data.setdefault("link", "Default")
+        data.setdefault("segment_length", 3)
+        data.setdefault("project_uids", [])
 
-    @validator("polling_freq", pre=True)
-    def check_polling_freq(cls, value):
-        if value is None:
-            value = 3600
-
-        return value
-
-    @validator("segment_length", pre=True)
-    def check_segment_length(cls, value):
-        if value is None:
-            value = 3
-
-        return value
+        super().__init__(**data)
 
 
 class Feed:
@@ -87,24 +92,24 @@ class Feed:
         feeds = []
 
         if response is not None:
-            for item in response:
-                try:
-                    if "name" in item.keys():
-                        feed = FeedModel(
-                            id=item["id"], type=item["type"], name=item["name"]
-                        )
-                    else:
-                        feed = FeedModel(
-                            id=item["id"], type=item["type"], name="Default"
-                        )
+            if isinstance(response, dict):
+                feed = FeedModel(
+                    id=response["id"],
+                    type=response["type"],
+                    creation_date=response["creation_date"],
+                    is_active=response["is_active"],
+                    next_poll_date=response["next_poll_date"],
+                    num_feed_items=response["num_feed_items"],
+                    priority=response["priority"],
+                    query_parameters=response["query_parameters"],
+                    status=response["status"],
+                    updated_date=response["updated_date"],
+                    name=response["name"],
+                )
+            elif isinstance(response, list):
+                feed = [FeedModel(**item) for item in response]
 
-                    feeds.append(feed)
-                except ValidationError as e:
-                    print(f"Feed.read(): Validation error for {item}: {e}")
-
-            return feeds
-        else:
-            return response
+        return feed
 
     @classmethod
     def delete(cls, feed_id: str, project_id: str):

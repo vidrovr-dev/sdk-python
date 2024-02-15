@@ -21,6 +21,7 @@ from pydantic import BaseModel, AnyHttpUrl, field_validator
 
 class Config(BaseModel):
     """Wrap configuration and provide related conveniences."""
+
     # TODO: use `contextvar` to make sure this gets created per-thread?
     # Non-model class attributes
     _session: ClassVar[requests.Session] = None
@@ -58,7 +59,7 @@ class Config(BaseModel):
             "x-api-key": self.key,
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Connection": "keep-alive"
+            "Connection": "keep-alive",
         }
         return headers
 
