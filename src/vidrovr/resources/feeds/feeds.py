@@ -78,10 +78,12 @@ class Feed:
         """
         Returns a list of all feeds created by the user, including the name and the unique identifier of the feed.
 
+        :param feed_id: ID of the feed to retrieve metadata from
+        :type feed_id: str
         :param project_id: ID of the project to retrieve feeds from
         :type project_id: str
-        :return: A list of all feeds in the project
-        :rtype: list[FeedModel]
+        :return: A list of all feeds in the project or a single feed
+        :rtype: list[FeedModel] or FeedModel
         """
         if feed_id is None:
             url = f"feeds/?project_uid={project_id}"
