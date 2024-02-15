@@ -24,6 +24,7 @@ class Resource(BaseModel):
         id (UUID): an identifier for the resource
         type (str): the name of the resource's type, as provided by the API
     """
+
     route: ClassVar[str] = ""
     updatable: ClassVar[list[str]] = []
 

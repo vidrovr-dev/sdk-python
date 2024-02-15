@@ -21,6 +21,7 @@ from vidrovr.resources._base import BaseResource
 
 class FeedTypes(enum.Enum):
     """Accepted feed type options."""
+
     youtube = "youtube"
     twitter_profile = "twitter_profile"
     twitter_hashtag = "twitter_hashtag"
@@ -41,6 +42,7 @@ class FeedTypes(enum.Enum):
 
 class Feed(BaseResource):
     """Represents the feed resource."""
+
     route: ClassVar[str] = "feeds"
     updatable: ClassVar[list[str]] = ["name"]
     # TODO: add more ^

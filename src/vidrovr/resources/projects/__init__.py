@@ -1,1 +1,4 @@
-from vidrovr.resources.projects.projects import Project, ProjectModel
+from src.vidrovr.resources.projects.projects import (
+    Project,
+    ProjectModel,
+)
