@@ -8,10 +8,11 @@
 import enum
 
 from datetime import datetime
+from typing import ClassVar
 from uuid import UUID
 
 # External libraries
-from pydantic import field_validator, model_validator, Field
+from pydantic import model_validator
 from pydantic import AnyHttpUrl
 
 # Internal libraries
@@ -39,6 +40,11 @@ class FeedTypes(enum.Enum):
 
 
 class Feed(BaseResource):
+    """Represents the feed resource."""
+    route: ClassVar[str] = "feeds"
+    updatable: ClassVar[list[str]] = ["name"]
+    # TODO: add more ^
+
     type: str = "feeds"
 
     # Basics

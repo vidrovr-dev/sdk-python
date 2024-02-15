@@ -78,7 +78,7 @@ class Resource(BaseModel):
 
     def update(self, refresh: bool = True):
         """Update the resource based on the model."""
-        client.patch(self.url(), data=self.body())
+        client.patch(self.url(), data=self.body(for_update=True))
 
         if refresh:
             self.refresh()
