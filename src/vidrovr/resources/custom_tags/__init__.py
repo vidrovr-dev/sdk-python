@@ -1,12 +1,12 @@
 from src.vidrovr.resources.custom_tags.tag import (
-    CustomTag, 
+    CustomTag,
     CustomTagModel,
 )
 from src.vidrovr.resources.custom_tags.tag_examples import (
-    CustomTagExample, 
+    CustomTagExample,
     CustomTagExampleModel,
 )
 from src.vidrovr.resources.custom_tags.classifier import (
-    Classifier, 
+    Classifier,
     ClassifierModel,
 )
