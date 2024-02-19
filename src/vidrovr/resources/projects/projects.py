@@ -1,8 +1,8 @@
 from src.vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError, validator
-from icecream import ic
 
+import json
 
 class ProjectModel(BaseModel):
     """
@@ -23,6 +23,7 @@ class ProjectModel(BaseModel):
     id: str = None
     name: str = None
     user_ids: list[str] = None
+    #requester_user_id: str = None
     creation_date: str = None
     type: str = None
 
@@ -150,17 +151,21 @@ class Project:
         """
         Create a new project in the organization.
 
-        :param user_id: ID of the user associated with the project
-        :type user_id: str
-        :param name: Name of the project
-        :type name: str
+        :param data: ProjectModel object containing the info to create a project
+        :type data: ProjectModel
         :return: A ProjectModel on success
         :rtype: ProjectModel
         """
         url = f"projects/"
-        payload = {"data": {"name": data.name, "user_ids": [data.user_ids]}}
-        response = Client.post(url, data=payload)
-
+        payload = {
+            "data": {
+                "name": data.name, 
+                "user_ids": data.user_ids
+            }
+        }
+    
+        response = Client.post(url, data=json.dumps(payload))
+        
         if response is not None:
             project = ProjectModel(
                 id=response["id"],

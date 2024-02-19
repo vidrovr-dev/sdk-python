@@ -103,7 +103,7 @@ class Client:
             if files is None:
                 header = {"Accept": "application/json", "x-api-key": API_KEY}
 
-                response = requests.post(api_url, headers=header, json=data)
+                response = requests.post(api_url, headers=header, data=data)
             else:
                 header = {"Content-Type": "multipart/form-data", "x-api-key": API_KEY}
                 response = requests.post(
