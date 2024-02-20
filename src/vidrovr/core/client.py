@@ -80,7 +80,7 @@ class Client:
         api_url = f"{BASE_URL}/{url}"
 
         try:
-            response = requests.patch(api_url, headers=header, json=data)
+            response = requests.patch(api_url, headers=header, data=data)
 
             response.raise_for_status()
 

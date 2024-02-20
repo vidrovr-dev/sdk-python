@@ -3,6 +3,8 @@ from src.vidrovr.core import Client
 from pydantic import BaseModel, ValidationError 
 from typing import Dict, Union
 
+import json
+
 class FeedModel(BaseModel):
     """
     Model of a feed
@@ -150,24 +152,27 @@ class Feed:
         :rtype: FeedModel
         """
         url = f"feeds/{feed_id}"
-        payload = {"data": {"is_active": status, "project_uid": project_id}}
-        response = Client.patch(url, payload)
+        payload = {
+            "data": {
+                "is_active": status, 
+                "project_uid": project_id
+            }
+        }
+        response = Client.patch(url, json.dumps(payload))
 
         if response is not None:
             feed = FeedModel(
-                additional_metadata=response["additional_metadata"],
-                creation_date=response["creation_date"],
                 id=response["id"],
+                type=response["type"],
+                creation_date=response["creation_date"],
                 is_active=response["is_active"],
-                name=response["name"],
                 next_poll_date=response["next_poll_date"],
                 num_feed_items=response["num_feed_items"],
-                polling_freq=response["polling_frequency"],
                 priority=response["priority"],
                 query_parameters=response["query_parameters"],
                 status=response["status"],
-                type=response["type"],
                 updated_date=response["updated_date"],
+                name=response["name"]
             )
 
             return feed
