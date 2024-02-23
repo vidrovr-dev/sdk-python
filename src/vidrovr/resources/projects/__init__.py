@@ -1,4 +1,4 @@
 from src.vidrovr.resources.projects.projects import (
-    Project, 
+    Project,
     ProjectModel,
 )
