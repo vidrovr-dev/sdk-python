@@ -1,12 +1,12 @@
 from src.vidrovr.resources.users.token import (
-    Token, 
+    Token,
     TokenModel,
 )
 from src.vidrovr.resources.users.user import (
-    User, 
+    User,
     UserModel,
 )
 from src.vidrovr.resources.users.roles import (
-    Roles, 
+    Roles,
     RolesModel,
 )

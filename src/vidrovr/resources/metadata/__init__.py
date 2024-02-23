@@ -1,40 +1,40 @@
 from src.vidrovr.resources.metadata.asset_item import (
-    AssetItem, 
+    AssetItem,
     AssetItemModel,
 )
 from src.vidrovr.resources.metadata.person import (
-    Person, 
+    Person,
     PersonModel,
 )
 from src.vidrovr.resources.metadata.custom_tags import (
-    CustomTag, 
+    CustomTag,
     CustomTagModel,
 )
 from src.vidrovr.resources.metadata.generic_tags import (
-    GenericTag, 
+    GenericTag,
     GenericTagModel,
 )
 from src.vidrovr.resources.metadata.iab_tags import (
-    IABTag, 
+    IABTag,
     IABTagModel,
 )
 from src.vidrovr.resources.metadata.keyphrases import (
-    Keyphrase, 
+    Keyphrase,
     KeyphraseModel,
 )
 from src.vidrovr.resources.metadata.named_entities import (
-    NamedEntities, 
+    NamedEntities,
     NamedEntitiesModel,
 )
 from src.vidrovr.resources.metadata.object import (
-    Object, 
+    Object,
     ObjectModel,
 )
 from src.vidrovr.resources.metadata.ocr import (
-    OCR, 
+    OCR,
     OCRModel,
 )
 from src.vidrovr.resources.metadata.transcript import (
-    Transcript, 
+    Transcript,
     TranscriptModel,
 )

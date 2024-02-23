@@ -1,7 +1,8 @@
 from src.vidrovr.core import Client
 
-from pydantic import BaseModel, ValidationError 
+from pydantic import BaseModel, ValidationError
 from typing import Dict, Union
+
 
 class FeedModel(BaseModel):
     """
@@ -50,7 +51,7 @@ class FeedModel(BaseModel):
     project_uids: list[str] = None
 
     def __init__(self, **data):
-        default_dict = {'default_key': 'default_value'}
+        default_dict = {"default_key": "default_value"}
 
         data.setdefault("additional_metadata", "Default")
         data.setdefault("creation_date", "Default")
@@ -72,6 +73,7 @@ class FeedModel(BaseModel):
 
         super().__init__(**data)
 
+
 class Feed:
     @classmethod
     def read(cls, feed_id: str, project_id: str):
@@ -91,7 +93,6 @@ class Feed:
         response = Client.get(url)
 
         if response is not None:
-            
             if isinstance(response, dict):
                 feed = FeedModel(
                     id=response["id"],
