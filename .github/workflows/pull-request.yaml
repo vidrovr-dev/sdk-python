@@ -3,6 +3,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  SOURCE_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
 jobs:
   lint:
     name: lint
@@ -25,12 +28,12 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
-            title: ":zap: Linting ${{ github.head_ref || github.ref_name}}"
-            commit-message: ":art: Linting ${{ github.head_ref || github.ref_name}}"
+            title: ":zap: Linting ${{ env.SOURCE_BRANCH_NAME }}"
+            commit-message: ":art: Linting ${{ env.SOURCE_BRANCH_NAME }}"
             body: |
-                Fixing linting errors in ${{ github.sha }} by ${{ github.actor }}.
-            base: ${{ github.head_ref || github.ref_name }} # Creates pull request onto pull request or commit branch
-            branch: actions/black
+                Fixing linting errors in ${{ github.sha }} by ${{ github.actor }}. 
+            base: ${{ env.SOURCE_BRANCH_NAME }} # Creates pull request onto pull request or commit branch
+            branch: actions/black/${{ env.SOURCE_BRANCH_NAME }}
 
       - name: Exit
         if: steps.action_black.outputs.is_formatted == 'true'
