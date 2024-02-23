@@ -1,8 +1,8 @@
-from src.vidrovr.resources.custom_persons.person import (
-    Person, 
+from vidrovr.resources.custom_persons.person import (
+    Person,
     PersonModel,
 )
-from src.vidrovr.resources.custom_persons.person_examples import (
-    PersonExample, 
+from vidrovr.resources.custom_persons.person_examples import (
+    PersonExample,
     PersonExampleModel,
 )
