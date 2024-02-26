@@ -1,5 +1,5 @@
 from src.vidrovr.resources.organizations.organization import (
-    Organization, 
+    Organization,
     OrganizationModel,
 )
 from src.vidrovr.resources.organizations.organization_users import (
