@@ -11,7 +11,7 @@ sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Vidrovr Python SDK"
-copyright = "2023, Vidrovr"
+copyright = "2024, Vidrovr"
 author = "Vidrovr"
 release = "1.0"
 
@@ -21,7 +21,7 @@ release = "1.0"
 extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.autodoc",
-    "sphinxcontrib.autodoc_pydantic",
+    "sphinxcontrib.autodoc_pydantic"
 ]
 
 templates_path = ["_templates"]
