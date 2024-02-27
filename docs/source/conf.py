@@ -21,7 +21,7 @@ release = "1.0"
 extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.autodoc",
-    "sphinxcontrib.autodoc_pydantic"
+    "sphinxcontrib.autodoc_pydantic",
 ]
 
 templates_path = ["_templates"]
