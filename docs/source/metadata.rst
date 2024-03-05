@@ -1,4 +1,4 @@
-Metdata
+Metadata
 =======
 
 Reading metadata
