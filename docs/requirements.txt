@@ -1,0 +1,2 @@
+furo==2022.4.7
+autodoc_pydantic==2.0.1

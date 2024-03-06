@@ -1,5 +1,5 @@
 Metadata
-=======
+========
 
 Reading metadata
 ----------------
@@ -10,69 +10,69 @@ within an asset, you can use the objects in vidrovr.resources.metadata.
 AssetItem
 ^^^^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.AssetItemModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.AssetItemModel
 
-.. autofunction:: vidrovr.resources.metadata.AssetItem.read
+.. autofunction:: src.vidrovr.resources.metadata.AssetItem.read
     
 CustomTag
 ^^^^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.CustomTagModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.CustomTagModel
 
-.. autofunction:: vidrovr.resources.metadata.CustomTag.read
+.. autofunction:: src.vidrovr.resources.metadata.CustomTag.read
 
 GenericTag
 ^^^^^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.GenericTagModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.GenericTagModel
 
-.. autofunction:: vidrovr.resources.metadata.GenericTag.read
+.. autofunction:: src.vidrovr.resources.metadata.GenericTag.read
 
 IABTag
 ^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.IABTagModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.IABTagModel
 
-.. autofunction:: vidrovr.resources.metadata.IABTag.read
+.. autofunction:: src.vidrovr.resources.metadata.IABTag.read
 
 Keyphrase
 ^^^^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.KeyphraseModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.KeyphraseModel
 
-.. autofunction:: vidrovr.resources.metadata.Keyphrase.read
+.. autofunction:: src.vidrovr.resources.metadata.Keyphrase.read
 
 NamedEntities
 ^^^^^^^^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.NamedEntitiesModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.NamedEntitiesModel
 
-.. autofunction:: vidrovr.resources.metadata.NamedEntities.read
+.. autofunction:: src.vidrovr.resources.metadata.NamedEntities.read
 
 Object
 ^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.ObjectModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.ObjectModel
 
-.. autofunction:: vidrovr.resources.metadata.Object.read
+.. autofunction:: src.vidrovr.resources.metadata.Object.read
 
 OCR
 ^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.OCRModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.OCRModel
 
-.. autofunction:: vidrovr.resources.metadata.OCR.read
+.. autofunction:: src.vidrovr.resources.metadata.OCR.read
 
 Person
 ^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.PersonModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.PersonModel
 
-.. autofunction:: vidrovr.resources.metadata.Person.read
+.. autofunction:: src.vidrovr.resources.metadata.Person.read
 
 Transcript
 ^^^^^^^^^^
 
-.. autopydantic_model:: vidrovr.resources.metadata.TranscriptModel
+.. autopydantic_model:: src.vidrovr.resources.metadata.TranscriptModel
 
-.. autofunction:: vidrovr.resources.metadata.Transcript.read
+.. autofunction:: src.vidrovr.resources.metadata.Transcript.read
