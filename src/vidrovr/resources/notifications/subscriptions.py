@@ -1,6 +1,7 @@
 from src.vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError
+from typing import Dict, Union
 
 class SubscriptionsModel(BaseModel):
     """
@@ -18,7 +19,7 @@ class SubscriptionsModel(BaseModel):
     :type owner_id: str
     :param resource_id: Resource of the subscription. Either feed ID or saved search ID
     :type resource_id: str
-    :param template: Template string of the subscription text
+    :param template: Template string of the subscription text. Currently not implemented.
     :type template: str
     :param type: Type of the subscription
     :type type: str
@@ -27,11 +28,11 @@ class SubscriptionsModel(BaseModel):
     """
     creation_date: str = None
     event_type_id: str = None # comes from get_events
-    frequency: str = None # REALTIME, DAILY_DIGEST, WEEKLY_DIGEST
+    frequency: str = None 
     id: str = None
     owner_id: str = None
-    resource_id: str = None # feed_id or saved_search_id
-    template: str = None
+    resource_id: str = None 
+    #template: str = None
     type: str = None
     updated_date: str = None
 
@@ -42,7 +43,7 @@ class SubscriptionsModel(BaseModel):
         data.setdefault("id", "Default")
         data.setdefault("owner_id", "Default")
         data.setdefault("resource_id", "Default")
-        data.setdefault("template", "Default")
+        #data.setdefault("template", "Default")
         data.setdefault("type", "Default")
         data.setdefault("updated_date", "Default")
 
@@ -66,7 +67,7 @@ class Subscriptions:
             'data': {
                 'event_type_id': data.event_type_id, 
                 'frequency': data.frequency,
-                'template': data.template,
+                #'template': data.template,
                 'resource_id': data.resource_id 
             }
         }
@@ -100,19 +101,47 @@ class Subscriptions:
     def read(cls, project_id: str, subscription_id: str = None, is_receivers: bool = False):
         """
         Retreive subscriptions for the project
+
+        :param project_id: ID of the project
+        :type project_id: str
+        :param subscription_id: ID of the subscription. Set to None to retrieve all subscriptions.
+        :type subscription_id: str
+        :param is_receivers: Set to True to retrieve the recevier IDs for a specific subscription ID.
+        :type is_receivers: bool
+        :return: Info for all subscriptions, a specific subscription or a list of receivers
+        :rtype: SubscriptionModel or list[SubscriptionModel]
         """
         if not is_receivers:
+            print("not receiver")
             if subscription_id is None:
+                print("no subscription id")
                 url = f"notifications/{project_id}/subscriptions"
             else:
-                url = f"notifications/{project_id}/receivers/{subscription_id}"
+                print(f"subscription id: {subscription_id}")
+                url = f"notifications/{project_id}/subscriptions/{subscription_id}"
         else:
+            print("receiver")
             url = f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
+
+        print(url)
 
         response = Client.get(url)
 
         if response is not None:
-            subscription = SubscriptionsModel()
+            if isinstance(response, dict):
+                subscription = SubscriptionsModel(
+                    creation_date = response["creation_date"],
+                    event_type_id = response["event_type_id"],
+                    frequency = response["frequency"],
+                    id = response["id"],
+                    owner_id = response["owner_id"],
+                    resource_id = response["resource_id"],
+                    #template = response["template"],
+                    type = response["type"],
+                    updated_date = response["updated_date"]
+                )
+            elif isinstance(response, list):
+                subscription = [SubscriptionsModel(**item) for item in response]
 
             return subscription
         else:

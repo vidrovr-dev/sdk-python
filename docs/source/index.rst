@@ -37,6 +37,7 @@ Contents
    feeds
    metadata
    metadata_appearances
+   notifications
    organizations
    projects
    search
