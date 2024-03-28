@@ -35,6 +35,7 @@ class SubscriptionsModel(BaseModel):
     #template: str = None
     type: str = None
     updated_date: str = None
+    receiver_ids: list[str] = None
 
     def __init__(self, **data):
         data.setdefault("creation_date", "Default")
@@ -46,6 +47,7 @@ class SubscriptionsModel(BaseModel):
         #data.setdefault("template", "Default")
         data.setdefault("type", "Default")
         data.setdefault("updated_date", "Default")
+        data.setdefault("receiver_ids", [])
 
         super().__init__(**data)
 
@@ -112,18 +114,12 @@ class Subscriptions:
         :rtype: SubscriptionModel or list[SubscriptionModel]
         """
         if not is_receivers:
-            print("not receiver")
             if subscription_id is None:
-                print("no subscription id")
                 url = f"notifications/{project_id}/subscriptions"
             else:
-                print(f"subscription id: {subscription_id}")
                 url = f"notifications/{project_id}/subscriptions/{subscription_id}"
         else:
-            print("receiver")
             url = f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
-
-        print(url)
 
         response = Client.get(url)
 
@@ -151,17 +147,33 @@ class Subscriptions:
     def update(cls, project_id: str, subscription_id: str, data: SubscriptionsModel, is_receivers: bool = False):
         """
         Update a subscription
+
+        :param project_id: ID of the project
+        :type project_id: str
+        :param subscription_id: ID of the subscription
+        :type subscription_id: str
+        :param data: Information to update the subscription or the subscription receivers
+        :type data: SubscriptionModel
+        :param is_receviers: Indicates whether the update is for a subscription or the subscription receivers. Default is false.
+        :type is_receivers: bool
+        :return: Something
+        :rtype: Something else
         """
         if not is_receivers:
             url = f"notifications/{project_id}/subscriptions/{subscription_id}"
+            payload = {
+                "data": {
+                    "event_type_id": data.event_type_id,
+                    "frequency": data.frequency
+                }
+            }
         else:
             url = f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
-
-        payload = {
-            "data": {
-
+            payload = {
+                "data": {
+                    "receiver_ids": data.receiver_ids
+                }
             }
-        }
 
         response = Client.patch(url, payload)
 
