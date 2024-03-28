@@ -2,10 +2,11 @@ from src.vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError
 
+
 class MessagesModel(BaseModel):
     """
     Model of a message.
-    
+
     :param content: Content of the message
     :type content: str
     :param creation_date: Creation date of the message
@@ -25,6 +26,7 @@ class MessagesModel(BaseModel):
     :param updated_date: Updated date of the message
     :type updated_date: str
     """
+
     content: str = None
     creation_date: str = None
     id: str = None
@@ -47,6 +49,7 @@ class MessagesModel(BaseModel):
         data.setdefault("updated_date", "Default")
 
         super().__init__(**data)
+
 
 class Messages:
     @classmethod
@@ -101,7 +104,7 @@ class Messages:
                     status=response["status"],
                     subscription_id=response["subscription_id"],
                     type=response["type"],
-                    updated_date=response["updated_date"]
+                    updated_date=response["updated_date"],
                 )
             elif isinstance(response, list):
                 messages = [MessagesModel(**item) for item in response]
@@ -127,12 +130,7 @@ class Messages:
         :rtype: MessageModel
         """
         url = f"notifications/{project_id}/messages/{message_id}"
-        payload = {
-            "data": {
-                "read": read,
-                "delivered": delivered
-            }
-        }
+        payload = {"data": {"read": read, "delivered": delivered}}
         response = Client.patch(url, payload)
 
         if response is not None:
@@ -145,7 +143,7 @@ class Messages:
                 status=response["status"],
                 subscription_id=response["subscription_id"],
                 type=response["type"],
-                updated_date=response["updated_date"]
+                updated_date=response["updated_date"],
             )
 
             return message

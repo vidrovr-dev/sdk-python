@@ -4,6 +4,7 @@ from pydantic import BaseModel, ValidationError, validator
 from icecream import ic
 
 
+
 class ProjectModel(BaseModel):
     """
     Model of a project

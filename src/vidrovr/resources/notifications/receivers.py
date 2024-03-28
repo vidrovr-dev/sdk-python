@@ -2,10 +2,11 @@ from src.vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError
 
+
 class ReceiversModel(BaseModel):
     """
     Model of a notification receiver.
-    
+
     :param email: Email of the receiver
     :type email: str
     :param id: ID of the receiver
@@ -23,6 +24,7 @@ class ReceiversModel(BaseModel):
     :param webhook_headers: Webhook headers for the URL
     :type webhook_headers: str
     """
+
     email: str = None
     id: str = None
     method: str = None
@@ -48,6 +50,7 @@ class ReceiversModel(BaseModel):
 
         super().__init__(**data)
 
+
 class Receivers:
     @classmethod
     def create(cls, project_id: str, data: ReceiversModel):
@@ -62,10 +65,7 @@ class Receivers:
         :rtype: ReceiversModel
         """
         url = f"notifications/{project_id}/receivers"
-        payload = {
-            "data": {
-            }
-        }
+        payload = {"data": {}}
 
         # update payload based on method
         if data.method == "EMAIL":
@@ -122,7 +122,7 @@ class Receivers:
 
             if data.user_id is not None:
                 if "user_id" not in payload["data"]:
-                    payload["data"]["user_id"] = data.user_id                
+                    payload["data"]["user_id"] = data.user_id
 
         response = Client.post(url, payload)
 
@@ -133,12 +133,12 @@ class Receivers:
                 method=response["method"],
                 muted=response["muted"],
                 type=response["type"],
-                user_id=response["user_id"]
+                user_id=response["user_id"],
             )
 
             return receiver
         else:
-            return response            
+            return response
 
     @classmethod
     def delete(cls, project_id: str, receiver_id: str):
@@ -162,7 +162,6 @@ class Receivers:
         else:
             return response
 
-
     @classmethod
     def read(cls, project_id: str, receiver_id: str = None):
         """
@@ -179,7 +178,7 @@ class Receivers:
             url = f"notifications/{project_id}/receivers"
         else:
             url = f"notifications/{project_id}/receivers/{receiver_id}"
-        
+
         response = Client.get(url)
 
         if response is not None:
@@ -190,7 +189,7 @@ class Receivers:
                     method=response["method"],
                     muted=response["muted"],
                     type=response["type"],
-                    user_id=response["user_id"]
+                    user_id=response["user_id"],
                 )
             elif isinstance(response, list):
                 receivers = [ReceiversModel(**item) for item in response]
@@ -200,7 +199,7 @@ class Receivers:
             return response
 
     @classmethod
-    def update(cls, project_id: str, receiver_id: str, muted: bool): 
+    def update(cls, project_id: str, receiver_id: str, muted: bool):
         """
         Update a receiver
 
@@ -214,11 +213,7 @@ class Receivers:
         :rtype: ReceiversModel
         """
         url = f"notifications/{project_id}/receivers/{receiver_id}"
-        payload = {
-            "data": {
-                "muted": muted
-            }
-        }
+        payload = {"data": {"muted": muted}}
         response = Client.patch(url, payload)
 
         if response is not None:
@@ -228,7 +223,7 @@ class Receivers:
                 method=response["method"],
                 muted=response["muted"],
                 type=response["type"],
-                user_id=response["user_id"]
+                user_id=response["user_id"],
             )
 
             return receivers

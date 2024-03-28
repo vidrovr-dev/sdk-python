@@ -3,6 +3,7 @@ from src.vidrovr.core import Client
 from pydantic import BaseModel, ValidationError
 from typing import Dict, Union
 
+
 class SubscriptionsModel(BaseModel):
     """
     Model of a subscription
@@ -26,13 +27,14 @@ class SubscriptionsModel(BaseModel):
     :param updated_date: Date of subscription update
     :type updated_date: str
     """
+
     creation_date: str = None
-    event_type_id: str = None # comes from get_events
-    frequency: str = None 
+    event_type_id: str = None  # comes from get_events
+    frequency: str = None
     id: str = None
     owner_id: str = None
-    resource_id: str = None 
-    #template: str = None
+    resource_id: str = None
+    # template: str = None
     type: str = None
     updated_date: str = None
     receiver_ids: list[str] = None
@@ -44,12 +46,13 @@ class SubscriptionsModel(BaseModel):
         data.setdefault("id", "Default")
         data.setdefault("owner_id", "Default")
         data.setdefault("resource_id", "Default")
-        #data.setdefault("template", "Default")
+        # data.setdefault("template", "Default")
         data.setdefault("type", "Default")
         data.setdefault("updated_date", "Default")
         data.setdefault("receiver_ids", [])
 
         super().__init__(**data)
+
 
 class Subscriptions:
     @classmethod
@@ -66,11 +69,11 @@ class Subscriptions:
         """
         url = f"notifications/{project_id}/subscriptions"
         payload = {
-            'data': {
-                'event_type_id': data.event_type_id, 
-                'frequency': data.frequency,
+            "data": {
+                "event_type_id": data.event_type_id,
+                "frequency": data.frequency,
                 #'template': data.template,
-                'resource_id': data.resource_id 
+                "resource_id": data.resource_id,
             }
         }
         response = Client.post(url, payload)
@@ -88,7 +91,9 @@ class Subscriptions:
         if not is_receivers:
             url = f"notifications/{project_id}/subscriptions/{subscription_id}"
         else:
-            url = f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
+            url = (
+                f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
+            )
 
         response = Client.delete(url)
 
@@ -100,7 +105,9 @@ class Subscriptions:
             return response
 
     @classmethod
-    def read(cls, project_id: str, subscription_id: str = None, is_receivers: bool = False):
+    def read(
+        cls, project_id: str, subscription_id: str = None, is_receivers: bool = False
+    ):
         """
         Retreive subscriptions for the project
 
@@ -119,22 +126,24 @@ class Subscriptions:
             else:
                 url = f"notifications/{project_id}/subscriptions/{subscription_id}"
         else:
-            url = f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
+            url = (
+                f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
+            )
 
         response = Client.get(url)
 
         if response is not None:
             if isinstance(response, dict):
                 subscription = SubscriptionsModel(
-                    creation_date = response["creation_date"],
-                    event_type_id = response["event_type_id"],
-                    frequency = response["frequency"],
-                    id = response["id"],
-                    owner_id = response["owner_id"],
-                    resource_id = response["resource_id"],
-                    #template = response["template"],
-                    type = response["type"],
-                    updated_date = response["updated_date"]
+                    creation_date=response["creation_date"],
+                    event_type_id=response["event_type_id"],
+                    frequency=response["frequency"],
+                    id=response["id"],
+                    owner_id=response["owner_id"],
+                    resource_id=response["resource_id"],
+                    # template = response["template"],
+                    type=response["type"],
+                    updated_date=response["updated_date"],
                 )
             elif isinstance(response, list):
                 subscription = [SubscriptionsModel(**item) for item in response]
@@ -144,7 +153,13 @@ class Subscriptions:
             return response
 
     @classmethod
-    def update(cls, project_id: str, subscription_id: str, data: SubscriptionsModel, is_receivers: bool = False):
+    def update(
+        cls,
+        project_id: str,
+        subscription_id: str,
+        data: SubscriptionsModel,
+        is_receivers: bool = False,
+    ):
         """
         Update a subscription
 
@@ -164,16 +179,14 @@ class Subscriptions:
             payload = {
                 "data": {
                     "event_type_id": data.event_type_id,
-                    "frequency": data.frequency
+                    "frequency": data.frequency,
                 }
             }
         else:
-            url = f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
-            payload = {
-                "data": {
-                    "receiver_ids": data.receiver_ids
-                }
-            }
+            url = (
+                f"notifications/{project_id}/subscriptions/{subscription_id}/receivers"
+            )
+            payload = {"data": {"receiver_ids": data.receiver_ids}}
 
         response = Client.patch(url, payload)
 
