@@ -2,6 +2,7 @@ from src.vidrovr.core import Client
 
 from pydantic import BaseModel, ValidationError
 
+
 class EventsModel(BaseModel):
     """
     Model of events list
@@ -15,10 +16,12 @@ class EventsModel(BaseModel):
     :param type: Type of event
     :type type: str
     """
+
     description: str = None
     id: str = None
     name: str = None
     type: str = None
+
 
 class Events:
     @classmethod
