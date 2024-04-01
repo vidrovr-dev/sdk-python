@@ -44,7 +44,7 @@ class Person:
         :param person_id: ID of the person or None
         :type person_id: str
         :return: Array of persons in the project or the details of a specific person
-        :rtype: list[PersonData] or PersonData
+        :rtype: list[PersonModel] or PersonModel
         """
         if person_id is None:
             url = f"customdata/persons/?project_uid={project_id}"

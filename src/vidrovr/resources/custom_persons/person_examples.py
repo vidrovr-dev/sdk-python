@@ -38,7 +38,7 @@ class PersonExample:
         :param example_id: ID of the specific example to pull details. Defaults to None to return the array of all examples.
         :type example_id: str
         :return: A single person or an array of person examples
-        :rtype: PersonExampleData
+        :rtype: PersonExampleModel
         """
         if example_id is None:
             url = f"customdata/persons/{person_id}/examples?project_uid={project_id}=&status=&page_size=&page="
