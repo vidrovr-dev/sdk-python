@@ -1,0 +1,709 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Organizations" href="organizations.html" /><link rel="prev" title="Metadata: Appearances" href="metadata_appearances.html" />
+
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+        <title>Notifications - Vidrovr Python SDK 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Vidrovr Python SDK 1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Vidrovr Python SDK 1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_persons.html">Custom Persons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_tags.html">Custom Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feeds.html">Feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metadata.html">Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metadata_appearances.html">Metadata: Appearances</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="organizations.html">Organizations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projects.html">Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upload.html">Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="section" id="notifications">
+<h1>Notifications<a class="headerlink" href="#notifications" title="Permalink to this headline">#</a></h1>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">#</a></h2>
+<p>To retrieve a list of events for a specific project, you can use the
+vidrovr.resources.notifications.events.Event object.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.events.Events.read">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.events.Events.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.events.Events.read" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a list of all events for the given project ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>project_id</strong> (<em>str</em>) – ID of the project</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of events</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[EventsModel]</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+<div class="section" id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Permalink to this headline">#</a></h2>
+<p>To delete, retrieve or update messages for a specific project, you can use the
+vidrovr.resources.notifications.messages.Messages object.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.messages.</span></span><span class="sig-name descname"><span class="pre">MessagesModel</span></span><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Model of a message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> (<em>str</em>) – Content of the message</p></li>
+<li><p><strong>creation_date</strong> (<em>str</em>) – Creation date of the message</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – ID of the message</p></li>
+<li><p><strong>read</strong> (<em>bool</em>) – Indicates if the message has been read</p></li>
+<li><p><strong>receiver_id</strong> – ID for the receiver of the message</p></li>
+<li><p><strong>status</strong> (<em>str</em>) – Status of the message (Pending, Delivered, Failed)</p></li>
+<li><p><strong>subscription_id</strong> – ID of the subscription for the message</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of message</p></li>
+<li><p><strong>updated_date</strong> (<em>str</em>) – Updated date of the message</p></li>
+</ul>
+</dd>
+</dl>
+<p><details class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MessagesModel"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Model of a message.\n\n:param content: Content of the message\n:type content: str\n:param creation_date: Creation date of the message\n:type creation_date: str\n:param id: ID of the message\n:type id: str\n:param read: Indicates if the message has been read\n:type read: bool\n:param receiver_id: ID for the receiver of the message\n:type reeceiver_id: str\n:param status: Status of the message (Pending, Delivered, Failed)\n:type status: str\n:param subscription_id: ID of the subscription for the message\n:type subscription)id: str\n:param type: Type of message\n:type type: str\n:param updated_date: Updated date of the message\n:type updated_date: str"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Content"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"creation_date"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Creation Date"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Id"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"read"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Read"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"receiver_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Receiver Id"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Status"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"subscription_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Subscription Id"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Type"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"updated_date"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Updated Date"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.content" title="src.vidrovr.resources.notifications.messages.MessagesModel.content"><code class="xref py py-obj docutils literal notranslate"><span class="pre">content</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.creation_date" title="src.vidrovr.resources.notifications.messages.MessagesModel.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.id" title="src.vidrovr.resources.notifications.messages.MessagesModel.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.read" title="src.vidrovr.resources.notifications.messages.MessagesModel.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.receiver_id" title="src.vidrovr.resources.notifications.messages.MessagesModel.receiver_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">receiver_id</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.status" title="src.vidrovr.resources.notifications.messages.MessagesModel.status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">status</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.subscription_id" title="src.vidrovr.resources.notifications.messages.MessagesModel.subscription_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscription_id</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.type" title="src.vidrovr.resources.notifications.messages.MessagesModel.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel.updated_date" title="src.vidrovr.resources.notifications.messages.MessagesModel.updated_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">updated_date</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.content">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">content</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.content" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.creation_date">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.creation_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.read">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.read" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.receiver_id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">receiver_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.receiver_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.status">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.status" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.subscription_id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subscription_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.subscription_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.type">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.type" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.updated_date">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">updated_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.updated_date" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.MessagesModel.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.MessagesModel.model_computed_fields" title="Permalink to this definition">#</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.Messages.delete">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.messages.Messages.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.Messages.delete" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete a specific message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_id</strong> (<em>str</em>) – ID of the project containing the message to delete</p></li>
+<li><p><strong>message_id</strong> (<em>str</em>) – ID of the message to delete</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the deleted message</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel" title="src.vidrovr.resources.notifications.messages.MessagesModel">MessagesModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.Messages.read">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.messages.Messages.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.Messages.read" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve a list of messages for a specific project or details on a single message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_id</strong> (<em>str</em>) – ID of the project containing the messages</p></li>
+<li><p><strong>message_id</strong> (<em>str</em>) – ID of the message, default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of message IDs or detail on a single message</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel" title="src.vidrovr.resources.notifications.messages.MessagesModel">MessagesModel</a>] or <a class="reference internal" href="#src.vidrovr.resources.notifications.messages.MessagesModel" title="src.vidrovr.resources.notifications.messages.MessagesModel">MessagesModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.messages.Messages.update">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.messages.Messages.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delivered</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.messages.Messages.update" title="Permalink to this definition">#</a></dt>
+<dd><p>Update a specific message using the message ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_id</strong> (<em>str</em>) – Project ID containing the message</p></li>
+<li><p><strong>message_id</strong> (<em>str</em>) – ID of the message to update</p></li>
+<li><p><strong>read</strong> (<em>bool</em>) – Indicates if the message has been read</p></li>
+<li><p><strong>delivered</strong> (<em>bool</em>) – Indicates if the message has been delivered</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Updated message model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>MessageModel</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+<div class="section" id="receivers">
+<h2>Receivers<a class="headerlink" href="#receivers" title="Permalink to this headline">#</a></h2>
+<p>To create, delete, retrieve or update receivers for a notification in a specific project,
+you can use the vidrovr.resources.notifications.messages.Messages object.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.receivers.</span></span><span class="sig-name descname"><span class="pre">ReceiversModel</span></span><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Model of a notification receiver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> (<em>str</em>) – Email of the receiver</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – ID of the receiver</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – Receiver’s delivery method of the notificaton (SLACK, EMAIL, IN_APP, WEBHOOK)</p></li>
+<li><p><strong>user_id</strong> (<em>str</em>) – User ID of the receiver</p></li>
+<li><p><strong>slackbot_api_key</strong> (<em>str</em>) – Slack API key for delivery of notifications to Slack</p></li>
+<li><p><strong>slack_channel_name</strong> (<em>str</em>) – Name of the Slack channel to deliver notifications</p></li>
+<li><p><strong>webhook_url</strong> (<em>str</em>) – URL of the webhook to use for notification delivery</p></li>
+<li><p><strong>webhook_headers</strong> (<em>str</em>) – Webhook headers for the URL</p></li>
+</ul>
+</dd>
+</dl>
+<p><details class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ReceiversModel"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Model of a notification receiver.\n\n:param email: Email of the receiver\n:type email: str\n:param id: ID of the receiver\n:type id: str\n:param method: Receiver's delivery method of the notificaton (SLACK, EMAIL, IN_APP, WEBHOOK)\n:type method: str\n:param user_id: User ID of the receiver\n:type user_id: str\n:param slackbot_api_key: Slack API key for delivery of notifications to Slack\n:type slackbot_api_key: str\n:param slack_channel_name: Name of the Slack channel to deliver notifications\n:type slack_channel_name: str\n:param webhook_url: URL of the webhook to use for notification delivery\n:type webhook_url: str\n:param webhook_headers: Webhook headers for the URL\n:type webhook_headers: str"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Id"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Method"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"muted"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Muted"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Type"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User Id"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"slackbot_api_key"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Slackbot Api Key"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"slack_channel_name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Slack Channel Name"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"webhook_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Webhook Url"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"webhook_headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Webhook Headers"</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.email" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.email"><code class="xref py py-obj docutils literal notranslate"><span class="pre">email</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.id" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.method" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.method"><code class="xref py py-obj docutils literal notranslate"><span class="pre">method</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.muted" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.muted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">muted</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.slack_channel_name" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.slack_channel_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slack_channel_name</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.slackbot_api_key" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.slackbot_api_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slackbot_api_key</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.type" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.user_id" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.user_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_id</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_headers" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_headers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">webhook_headers</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_url" title="src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">webhook_url</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.email">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">email</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.email" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.method">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.method" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.muted">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">muted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.muted" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.slack_channel_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">slack_channel_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.slack_channel_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.slackbot_api_key">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">slackbot_api_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.slackbot_api_key" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.type">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.type" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.user_id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.user_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_headers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">webhook_headers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_headers" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_url">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">webhook_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.webhook_url" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.ReceiversModel.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel.model_computed_fields" title="Permalink to this definition">#</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.Receivers.create">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.receivers.Receivers.</span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="src.vidrovr.resources.notifications.receivers.ReceiversModel"><span class="pre">src.vidrovr.resources.notifications.receivers.ReceiversModel</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.Receivers.create" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a new receiver</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_id</strong> (<em>str</em>) – ID of the project that will contain the receiver</p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="src.vidrovr.resources.notifications.receivers.ReceiversModel"><em>ReceiversModel</em></a>) – Data definition of the new receiver</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Model of a new receiver</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="src.vidrovr.resources.notifications.receivers.ReceiversModel">ReceiversModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.Receivers.delete">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.receivers.Receivers.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">receiver_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.Receivers.delete" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete a receiver from the project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_id</strong> – ID of the project containing the receiver to delete</p></li>
+<li><p><strong>receiver_id</strong> (<em>str</em>) – ID of the receiver to delete</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the deleted receiver</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="src.vidrovr.resources.notifications.receivers.ReceiversModel">ReceiversModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.vidrovr.resources.notifications.receivers.Receivers.read">
+<span class="sig-prename descclassname"><span class="pre">src.vidrovr.resources.notifications.receivers.Receivers.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">receiver_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.vidrovr.resources.notifications.receivers.Receivers.read" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieves a list of receivers in the project or data for a specific receiver</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_id</strong> (<em>str</em>) – ID of the project</p></li>
+<li><p><strong>receiver_id</strong> (<em>str</em>) – ID of the receiver, default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of all receivers or a single receiver</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="src.vidrovr.resources.notifications.receivers.ReceiversModel">ReceiversModel</a>] or <a class="reference internal" href="#src.vidrovr.resources.notifications.receivers.ReceiversModel" title="src.vidrovr.resources.notifications.receivers.ReceiversModel">ReceiversModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+<div class="section" id="subscriptions">
+<h2>Subscriptions<a class="headerlink" href="#subscriptions" title="Permalink to this headline">#</a></h2>
+<p>To create, delete, retrieve or update subscribers for a notification in a specific project,
+you can use the vidrovr.resources.notifications.subscriptions.Subscriptions object.</p>
+</div>
+</div>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="organizations.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Organizations</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="metadata_appearances.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Metadata: Appearances</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Vidrovr
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Notifications</a><ul>
+<li><a class="reference internal" href="#events">Events</a></li>
+<li><a class="reference internal" href="#messages">Messages</a></li>
+<li><a class="reference internal" href="#receivers">Receivers</a></li>
+<li><a class="reference internal" href="#subscriptions">Subscriptions</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
