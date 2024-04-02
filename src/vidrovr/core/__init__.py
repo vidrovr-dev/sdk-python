@@ -1,1 +1,1 @@
-from src.vidrovr.core.client import Client
+from vidrovr.core.client import Client

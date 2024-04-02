@@ -1,6 +1,6 @@
 import json
 
-from src.vidrovr.core import Client
+from vidrovr.core import Client
 
 from pydantic import BaseModel
 from typing import List

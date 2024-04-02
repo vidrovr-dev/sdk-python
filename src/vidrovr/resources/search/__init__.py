@@ -1,4 +1,4 @@
-from src.vidrovr.resources.search.search import (
+from vidrovr.resources.search.search import (
     Search,
     SavedSearch,
     SearchFeedItems,
@@ -6,7 +6,7 @@ from src.vidrovr.resources.search.search import (
     SearchQuery,
     SearchData,
 )
-from src.vidrovr.resources.search.search_appearances import (
+from vidrovr.resources.search.search_appearances import (
     SearchAppearances,
     SearchAppearancesData,
     AppearancesFeedItems,
